@@ -1,0 +1,114 @@
+---
+title: "Introducción a la confiabilidad"
+format:
+    html: 
+      self-contained: true
+      grid: 
+        margin-width: 350px
+execute: 
+  echo: fenced
+reference-location: margin
+citation-location: margin
+---
+
+## Introducción 
+
+Los avances tecnológicos y la alta competitividad han contribuido al desarrollo de productos muy sofisticados y de mucha calidad, los clientes buscan adquirir un producto confiable y seguro. Los sistemas, vehículos, celulares, maquinas, etc. Denen ser capaces de cumplir su función bajo condiciones normales. 
+
+
+Debido a lo mencionado, obtener datos sobre la confiabilidad de un producto o sistema resulta de mucha importancia, pues se pueden utilizar herramientas estadísticas para tomar mejores decisiones respecto a la calidad y confiabilidad de un producto. Obtener estos datos puede ser una **tarea muy compleja**, sin embargo, con los avances en la tecnología, como sensores capaces de tomar mediciones en tiempo real, el recolectar datos de relevancia se ha hecho mucho más accesible hoy en día. 
+
+::: column-margin
+**La confiabilidad se define como:** la capacidad de un elemento (sistema, componente, producto) para funcionar como se requiere en un contexto operativo establecido y durante un periodo de tiempo establecido
+:::
+
+## Razones para recopilar datos de confiabilidad
+
+Algunas de las razones para recopilar datos son:
+
+
+- Evaluar las características de los materiales durante el período de garantía o a lo largo de la vida útil del producto.
+
+- Predecir la confiabilidad del producto. 
+
+- Predecir los costos de garantía del producto.
+
+- Proporcionar los insumos necesarios para la evaluación del riesgo de fallos del sistema.
+
+- Evaluar el efecto de un cambio de diseño propuesto.
+
+- Evaluar si se han cumplido los requisitos del cliente y las regulaciones.
+
+- Hacer seguimiento del producto en el campo para proporcionar información sobre las causas de fallos y métodos para mejorar la fiabilidad del producto.
+
+- Comparar componentes de dos o más fabricantes, materiales, períodos de producción, entornos de operación, y demás. 
+
+- Comprobar la veracidad de una afirmación publicitaria.
+
+
+## Características de los Datos de Confiabilidad
+
+Los datos de fiabilidad pueden tener varias características especiales que requieren el uso de métodos estadísticos especiales. Por ejemplo:
+
+- Los datos de confiabilidad suelen estar censurados (no se conocen los tiempos exactos de falla).
+
+- La mayoría de los datos de confiabilidad se modelan usando distribuciones para variables aleatorias positivas.
+
+- A menudo es necesario usar la experiencia pasada u otro juicio científico o de ingeniería para proporcionar información como entrada al análisis de datos o a un proceso de toma de decisiones.
+
+- Normalmente, los parámetros tradicionales de un modelo estadístico (por ejemplo, la media y la desviación estándar) no son lo que más importa.
+
+- Ajustar un modelo requiere implementar métodos numéricos en la computadora, y a menudo no existe una teoría exacta para las inferencias estadísticas.
+
+
+## Tipos de datos en confiabilidad
+
+#### Datos de tiempo hasta la falla sin variables explicativas
+
+Son datos de confiabilidad obtenidos de una muestra de unidades sometidas a condiciones de operación nominalmente iguales, registrando el tiempo hasta que cada unidad falla.
+
+Aunque se supone que las unidades operan bajo las mismas condiciones, en la práctica existen diferencias físicas y ambientales entre ellas —como resistencia, dureza, temperatura, humedad o esfuerzo— que generan variabilidad en los tiempos de falla.
+
+El análisis supone que esta variabilidad observada representa adecuadamente la variabilidad de vida de la población o proceso de interés. Por ello, los tiempos de falla pueden modelarse mediante una distribución de probabilidad sin incorporar variables explicativas adicionales.
+
+###### Ejemplo: Datos de fatiga de rodamientos.
+
+Estos datos corresponden a 23 tiempos de falla obtenidos mediante pruebas de fatiga en rodamientos de bolas de ranura profunda, sometidos a un mismo nivel de esfuerzo. Los rodamientos provenían de cuatro fabricantes diferentes.
+
+```{r}
+tiempos <- c(17.88, 28.92, 33.00, 41.52,
+             42.12, 45.60, 48.48, 51.84,
+             51.96, 54.12, 55.56, 67.80,
+             68.64, 68.64, 68.88, 84.12,
+             93.12, 98.64, 105.12, 105.84,
+             127.92, 128.04, 173.40)
+```
+
+
+
+**Ejercicio:** Crea un histograma y describe la distribución de los tiempos de falla de los rodamiento de bolas, se recomienda apoyarse de estadísticas de resumen. 
+
+
+::: column-margin
+
+:::
+
+#### Datos de tiempo hasta el fallo con variables explicativas
+
+Son datos de confiabilidad en los que, además del tiempo hasta el fallo de cada unidad, se registran una o más variables explicativas que pueden influir en su vida útil.
+
+
+El objetivo es analizar cómo estas variables afectan el tiempo de vida o el riesgo de fallo. A diferencia de los datos sin variables explicativas, aquí no se supone que toda la variabilidad observada provenga únicamente de diferencias aleatorias entre las unidades, sino que parte puede explicarse mediante las variables registradas.
+
+
+
+
+
+
+
+
+
+
+
+
+
