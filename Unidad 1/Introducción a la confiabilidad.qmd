@@ -101,14 +101,20 @@ Son datos de confiabilidad en los que, además del tiempo hasta el fallo de cada
 El objetivo es analizar cómo estas variables afectan el tiempo de vida o el riesgo de fallo. A diferencia de los datos sin variables explicativas, aquí no se supone que toda la variabilidad observada provenga únicamente de diferencias aleatorias entre las unidades, sino que parte puede explicarse mediante las variables registradas.
 
 
+###### Ejemplo: Datos de prueba de vida acelerada de tarjetas de circuito impreso.
+
+Estos datos provenientes de un ensayo de vida acelerada realizado sobre tarjetas de circuito impreso (Printed Circuit Boards, PCB). El objetivo del experimento fue **estudiar el efecto de diferentes niveles de humedad relativa sobre el tiempo hasta la falla** de las tarjetas y, posteriormente, utilizar las condiciones aceleradas para inferir su confiabilidad bajo condiciones normales de operación.
+
+El modo de falla estudiado corresponde a la formación y crecimiento de filamentos anódicos conductores entre orificios metalizados de las tarjetas. La falla se define como la formación de un cortocircuito entre dichos conductores.
+
+Durante el experimento, las tarjetas fueron inspeccionadas periódicamente. Por lo tanto, cuando una tarjeta fallaba, no necesariamente se conocía el instante exacto de la falla, sino únicamente el intervalo de inspección en el que ocurrió. En consecuencia, los datos contienen principalmente censura por intervalo. Además, algunas tarjetas no presentaron falla antes de finalizar el ensayo, por lo que sus tiempos de vida están censurados por la derecha.
+
+
+```{r}
+df1 <- read.csv("https://raw.githubusercontent.com/Abraham1011/data/main/market_regimes.csv")
+```
 
 
 
-
-
-
-
-
-
-
+**Ejercicio:** Crea un diagrama de dispersión utilizando la humedad relativa en el eje horizontal y el límite inferior del intervalo de falla en el eje vertical. ¿Qué pasa con el tiempo de vida a medida que aumenta la humedad relativa?
 
