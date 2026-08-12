@@ -1,6 +1,7 @@
 ---
 title: "Introducción a la confiabilidad"
 format:
+    pdf: default
     html: 
       self-contained: true
       grid: 
@@ -119,4 +120,63 @@ kable(head(df1))
 
 
 **Ejercicio:** Crea un diagrama de dispersión utilizando la humedad relativa en el eje horizontal y el límite inferior del intervalo de falla en el eje vertical. ¿Qué pasa con el tiempo de vida a medida que aumenta la humedad relativa?
+
+
+
+#### Datos de degradación
+
+
+Son datos de confiabilidad obtenidos mediante el seguimiento de una característica de desempeño o condición de una unidad a lo largo del tiempo, antes de que ocurra una falla. En lugar de registrar únicamente el momento en que la unidad falla, se mide cómo una variable relacionada con su estado —como desgaste, pérdida de capacidad, resistencia o daño— se deteriora progresivamente.
+
+El objetivo es analizar la trayectoria de degradación para **estimar la vida útil ó vida útil residual (RUL)**, predecir el momento de falla o identificar patrones de deterioro.
+
+###### Ejemplo: Datos de filtros industriales.
+
+Datos de entrenamiento procedentes de un proceso de degradación en condiciones reales que implica la obstrucción de filtros de gas. El conjunto de datos incluye tiempos de vida censurados por la derecha debido a una política de mantenimiento preventivo. El fallo se define cuando la diferencia de presión supera los 600 Pa.
+
+```{r, warning=FALSE, message=FALSE}
+library(degradr)
+filtros <- filter_train
+kable(head(filtros))
+```
+
+
+
+```{r, warning=FALSE, message=FALSE, echo=FALSE}
+library(ggplot2)
+library(plotly)
+p <- ggplot(filtros, aes(x = Time, y = Differential_pressure, group = Data_No)) +
+  geom_line(alpha = 0.7, linewidth = 0.7) +
+  geom_hline(
+    yintercept = 600,
+    linetype = "dashed",
+    linewidth = 0.9
+  ) +
+  annotate(
+    "text",
+    x = Inf, y = 600,
+    label = "Umbral de falla: 600 Pa",
+    hjust = 1.05, vjust = -0.5,
+    size = 4
+  ) +
+  labs(
+    title = "Evolución de la presión diferencial de los filtros",
+    subtitle = "El fallo ocurre cuando la presión diferencial supera los 600 Pa",
+    x = "Tiempo",
+    y = "Presión diferencial (Pa)"
+  ) +
+  theme_minimal(base_size = 12) +
+  theme(
+    plot.title = element_text(face = "bold"),
+    plot.subtitle = element_text(color = "gray40"),
+    panel.grid.minor = element_blank()
+  )
+ggplotly(p)
+```
+
+
+
+
+
+
 
