@@ -110,8 +110,10 @@ El modo de falla estudiado corresponde a la formación y crecimiento de filament
 Durante el experimento, las tarjetas fueron inspeccionadas periódicamente. Por lo tanto, cuando una tarjeta fallaba, no necesariamente se conocía el instante exacto de la falla, sino únicamente el intervalo de inspección en el que ocurrió. En consecuencia, los datos contienen principalmente censura por intervalo. Además, algunas tarjetas no presentaron falla antes de finalizar el ensayo, por lo que sus tiempos de vida están censurados por la derecha.
 
 
-```{r}
-df1 <- read.csv("https://raw.githubusercontent.com/Abraham1011/data/main/market_regimes.csv")
+```{r, warning=FALSE, message=FALSE}
+library(knitr)
+df1 <- read.csv("https://raw.githubusercontent.com/Abraham1011/CONFIABILIDAD_IIE_2026/main/Datos/PrintedCircuitBoard.csv")
+kable(head(df1))
 ```
 
 
