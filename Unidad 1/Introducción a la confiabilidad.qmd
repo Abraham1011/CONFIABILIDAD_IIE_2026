@@ -144,8 +144,7 @@ kable(head(filtros))
 
 ```{r, warning=FALSE, message=FALSE, echo=FALSE}
 library(ggplot2)
-library(plotly)
-p <- ggplot(filtros, aes(x = Time, y = Differential_pressure, group = Data_No)) +
+ggplot(filtros, aes(x = Time, y = Differential_pressure, group = Data_No)) +
   geom_line(alpha = 0.7, linewidth = 0.7) +
   geom_hline(
     yintercept = 600,
@@ -171,10 +170,12 @@ p <- ggplot(filtros, aes(x = Time, y = Differential_pressure, group = Data_No)) 
     plot.subtitle = element_text(color = "gray40"),
     panel.grid.minor = element_blank()
   )
-ggplotly(p)
 ```
 
 
+## Referencias
+
+Meeker, W. Q., & Escobar, L. A. (1998). *Statistical Methods for Reliability Data*. John Wiley & Sons. (Biblioteca UAA: 620.00452 M4948s 21).
 
 
 
