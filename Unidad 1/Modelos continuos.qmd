@@ -1,0 +1,52 @@
+---
+title: "Modelos para procesos de tiempo de falla continuos"
+author: "M. en C. Abraham Montoya"
+format:
+    pdf: default
+    html: 
+      self-contained: true
+      grid: 
+        margin-width: 350px
+execute: 
+  echo: fenced
+reference-location: margin
+citation-location: margin
+---
+
+## Caracterización del tiempo de falla
+
+En confiabilidad, generalmente estamos interesados en los tiempos de falla de un componente o un sistema, entonces en este curso denotaremos $T$ se usará para denotar una variable aleatoria continua no negativa que describe el tiempo de falla de una unidad o sistema.
+
+
+Más que alguna medida descriptiva, por ejemplo, la media o la varianza, en confiabilidad nos interesa conocer la distribución del tiempo de falla $T$, esta distribución se puede caracterizar mediante su **función de distribución acumulada**, su **función de densidad**, su **función de supervivencia** o su **función de riesgo**.
+
+**La función de distribución acumulada** de tiempo de falla $T$ se define como 
+$$F(t)=P[T\leq t].$$
+y es la probabilidad de que una unidad falle antes de un tiempo particular $t$, $F(t)$ tambien se puede interpretar como la proporción de unidades en la población que fallarán antes del tiempo $t$.
+
+**Nota**: *En R, el nombre de la función de distribución acumulada suele comenzar con la letra p, por ejemplo pexp.*
+
+
+**La función de densidad de probabilidad** para una variable aleatoria continua $T$ se define como la derivada de $F(t)$ con respecto a $t$.
+
+**Nota**: *En R, el nombre de la función de densidad suele comenzar con la letra d, por ejemplo dexp.*
+
+**La función de supervivencia** $S(t)$, también conocida como función de confiabilidad, es el complemento de la función de distribución acumulada. Se define como
+
+$$S(t)=P[T>t]=1-F(t)$$
+
+y da la probabilidad de sobrevivir más allá del tiempo $t$.
+
+
+**La función de riesgo** $h(t)$, también conocida como tasa de riesgo o función de tasa de falla instantánea, se define por
+
+$$h(t)=\lim_{\Delta_{t}\to{0}}\frac{P\left[t<T\leq t+\Delta_t|T>t\right]}{\Delta_t}$$
+
+
+**Ejercicio:** mostrar que 
+
+
+
+$$h(t)=\lim_{\Delta_{t}\to{0}}\frac{P\left[t<T\leq t+\Delta_t|T>t\right]}{\Delta_t}=\frac{f(t)}{1-F(t)}=\frac{f(t)}{S(t)}$$
+
+
