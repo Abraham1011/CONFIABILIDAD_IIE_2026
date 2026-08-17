@@ -1,0 +1,57 @@
+---
+title: "Tipos de censura"
+author: "M. en C. Abraham Montoya"
+format:
+    pdf: default
+    html: 
+      self-contained: true
+      grid: 
+        margin-width: 350px
+execute: 
+  echo: fenced
+reference-location: margin
+citation-location: margin
+
+---
+
+## Sin censura
+
+Se observa el tiempo de falla exacto de cada unidad. Es el caso ideal para estimación de máxima verosimilitud, pero en la práctica es poco común en confiabilidad porque implica correr el estudio hasta que todas las unidades fallen, lo cual suele ser costoso o inviable en tiempo.
+
+
+## Censura por la derecha
+
+Es quizá la censura más común en estudios confiabilidad, se da cuando se termina el estudio y el componente no ha fallado. Hay al menos tres mecanismos que producen este tipo de censura. 
+
+1.	**Tipo I (censura por tiempo):** el estudio termina en un tiempo fijo predeterminado. El número de fallas observadas es aleatorio (Por ejemplo, el estudio termina despues de 200 horas de observación).
+
+2.	**Tipo II (censura por fallas):** el estudio termina cuando ocurre un número fijo de fallas (por ejemplo, las primeras 60 de 100 unidades). El tiempo de terminación es aleatorio.
+
+3.	**Censura aleatoria:** unidades que salen del estudio por razones ajenas a la falla.
+
+## Censura por la izquierda
+
+Se sabe que la falla ocurrió antes de la primera inspección, pero no se conoce el momento exacto. Común cuando la primera inspección ya encuentra la unidad fallada.
+
+
+## Censura por intervalo
+
+Solo se sabe que la falla ocurrió entre dos inspecciones sucesivas $(t_i, t_{i+1}]$, pero no el instante exacto. Muy frecuente en inspecciones periódicas y en degradación medida discretamente.
+
+## Ejemplo
+
+Un estudio de confiabilidad sigue 40 componentes electrónicos durante 24 meses. Los componentes se inspeccionan cada 6 meses (no hay monitoreo continuo), por lo que las fallas solo se detectan en esas visitas. Aalgunos fallaron antes de la primera inspección y al finalizar el estudio (mes 24) varios componentes seguían funcionando.
+
+
+| Límite inferior | Límite superior | Frecuencia | Tipo de censura |
+|-----------------|------------------|------------|------------------|
+| 0                | 6                | 4          | Izquierda        |
+| 6                | 12               | 9          | Intervalo        |
+| 12               | 18               | 11         | Intervalo        |
+| 18               | 24               | 7          | Intervalo        |
+| 24               | —                | 9          | Derecha          |
+
+
+Meeker, W. Q., & Escobar, L. A. (1998). *Statistical Methods for Reliability Data*. John Wiley & Sons. (Biblioteca UAA: 620.00452 M4948s 21).
+
+
