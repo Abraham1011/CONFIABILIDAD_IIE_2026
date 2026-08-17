@@ -14,7 +14,7 @@ citation-location: margin
 
 ## Introducción 
 
-Los avances tecnológicos y la alta competitividad han contribuido al desarrollo de productos muy sofisticados y de mucha calidad, los clientes buscan adquirir un producto confiable y seguro. Los sistemas, vehículos, celulares, maquinas, etc. Denen ser capaces de cumplir su función bajo condiciones normales. 
+Los avances tecnológicos y la alta competitividad han contribuido al desarrollo de productos muy sofisticados y de mucha calidad, los clientes buscan adquirir un producto confiable y seguro. Los sistemas, vehículos, celulares, maquinas, etc. Deben ser capaces de cumplir su función bajo condiciones normales. 
 
 
 Debido a lo mencionado, obtener datos sobre la confiabilidad de un producto o sistema resulta de mucha importancia, pues se pueden utilizar herramientas estadísticas para tomar mejores decisiones respecto a la calidad y confiabilidad de un producto. Obtener estos datos puede ser una **tarea muy compleja**, sin embargo, con los avances en la tecnología, como sensores capaces de tomar mediciones en tiempo real, el recolectar datos de relevancia se ha hecho mucho más accesible hoy en día. 
@@ -171,6 +171,7 @@ ggplot(filtros, aes(x = Time, y = Differential_pressure, group = Data_No)) +
     panel.grid.minor = element_blank()
   )
 ```
+
 
 
 ## Referencias
