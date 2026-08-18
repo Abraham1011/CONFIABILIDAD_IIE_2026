@@ -178,6 +178,7 @@ El cuantil $t_p$ es el inverso de la función de distribución acumulada, es el 
 
 Supongamos que una empresa estudia la vida útil de un sensor electrónico utilizado en una máquina industrial. A partir de datos históricos se considera razonable modelar el tiempo hasta falla mediante una distribución exponencial con tasa $\lambda = 0.002 fallas/hora$
 
+
 1. ¿Cuál es la probabilidad de que un sensor falle antes de las 500 horas de funcionamiento? (1 punto).
 
 
@@ -195,6 +196,13 @@ Una empresa de manufactura estudia el tiempo hasta la falla de un componente mec
 
 En todos los casos interpreta de acuerdo con el contexto y lo que piden los ejercicios.
 
+::: column-margin
+Si $$T \sim Gamma(\alpha,\lambda),$$
+entonces
+$$E[T]=\frac{\alpha}{\lambda}$$
+y 
+$$V[T]=\frac{\alpha}{\lambda^2}.$$
+:::
 
 1. Grafica las funciones de: densidad, distribución acumulada, supervivencia y de riesgo.¿Qué pasa con tasa de falla instantánea a medida que aumenta el tiempo? Grafica para $t\in (0,500].$ (2 puntos).
 
