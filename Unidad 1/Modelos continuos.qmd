@@ -49,4 +49,193 @@ $$h(t)=\lim_{\Delta_{t}\to{0}}\frac{P\left[t<T\leq t+\Delta_t|T>t\right]}{\Delta
 
 $$h(t)=\lim_{\Delta_{t}\to{0}}\frac{P\left[t<T\leq t+\Delta_t|T>t\right]}{\Delta_t}=\frac{f(t)}{1-F(t)}=\frac{f(t)}{S(t)}$$
 
+## Ejemplo Exponencial
+
+
+Si el tiempo de falla $T$ de un componente tiene una distribución exponencial con tasa $\lambda$, esto es
+$$T~\sim Exp(\lambda).$$
+
+::: column-margin
+$$E[T]=\frac{1}{\lambda}$$
+$$V[T]=\frac{1}{\lambda^2}$$
+:::
+Entonces, su función de densidad esta dada por:
+
+
+
+$$f(t)=\lambda e^{-\lambda t}, \qquad t>0, \lambda>0.$$
+Y su función de distribución acumulada esta dada por:
+
+$$P[T\leq t]=F(t)=\int_{0}^{\infty}f(t)dt=\int_{0}^{\infty} \lambda e^{-\lambda t}dt=1-e^{-\lambda t}.$$
+
+Así, la función de supervivencia resulta en:
+
+
+$$S(t)=P[T>t]=1-F(t)=e^{-\lambda t}.$$
+
+Y por ultimo, la función de riesgo es:
+
+$$h(t)=\frac{f(t)}{S(t)}=\frac{\lambda e^{-\lambda t}}{e^{-\lambda t}}=\lambda.$$
+
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+library(ggplot2)
+library(patchwork)
+
+# Parámetro
+lambda <- 1
+
+# Dominio
+t <- seq(0, 6, length.out = 1000)
+
+# Funciones de la distribución exponencial
+df <- data.frame(
+  t = t,
+  Densidad = dexp(t, rate = lambda),
+  Distribucion = pexp(t, rate = lambda),
+  Supervivencia = pexp(t, rate = lambda, lower.tail = FALSE),
+  Riesgo = dexp(t, rate = lambda) /
+           pexp(t, rate = lambda, lower.tail = FALSE)
+)
+
+# Tema común
+tema <- theme_minimal(base_size = 13) +
+  theme(
+    plot.title = element_text(face = "bold", hjust = 0.5),
+    axis.title = element_text(face = "bold"),
+    panel.grid.minor = element_blank()
+  )
+
+# 1. Densidad
+p1 <- ggplot(df, aes(t, Densidad)) +
+  geom_line(linewidth = 1.2) +
+  labs(
+    title = "Función de densidad",
+    subtitle = expression(f(t) == lambda * e^{-lambda*t}),
+    x = "Tiempo (t)",
+    y = "f(t)"
+  ) +
+  tema
+
+# 2. Distribución acumulada
+p2 <- ggplot(df, aes(t, Distribucion)) +
+  geom_line(linewidth = 1.2) +
+  labs(
+    title = "Función de distribución",
+    subtitle = expression(F(t) == 1 - e^{-lambda*t}),
+    x = "Tiempo (t)",
+    y = "F(t)"
+  ) +
+  tema
+
+# 3. Supervivencia
+p3 <- ggplot(df, aes(t, Supervivencia)) +
+  geom_line(linewidth = 1.2) +
+  labs(
+    title = "Función de supervivencia",
+    subtitle = expression(S(t) == e^{-lambda*t}),
+    x = "Tiempo (t)",
+    y = "S(t)"
+  ) +
+  tema
+
+# 4. Función de riesgo
+p4 <- ggplot(df, aes(t, Riesgo)) +
+  geom_line(linewidth = 1.2) +
+  labs(
+    title = "Función de riesgo",
+    subtitle = expression(h(t) == lambda),
+    x = "Tiempo (t)",
+    y = "h(t)"
+  ) +
+  tema +
+  coord_cartesian(ylim = c(0, 1.2))
+
+# Figura 2 × 2
+figura <- (p1 | p2) /
+          (p3 | p4)
+
+figura +
+  plot_annotation(
+    title = "Distribución exponencial",
+    subtitle = expression(lambda == 1),
+    theme = theme(
+      plot.title = element_text(size = 18, face = "bold"),
+      plot.subtitle = element_text(size = 14)
+    )
+  )
+```
+
+
+## La Función Cuantil y los Cuantiles de Distribución
+
+El cuantil $t_p$ es el inverso de la función de distribución acumulada, es el momento en que falla una proporción específica $p$ de la población.
+
+
+
+
+## Ejemplo: vida útil de un componente electrónico
+
+Supongamos que una empresa estudia la vida útil de un sensor electrónico utilizado en una máquina industrial. A partir de datos históricos se considera razonable modelar el tiempo hasta falla mediante una distribución exponencial con tasa $\lambda = 0.002 fallas/hora$
+
+1. ¿Cuál es la probabilidad de que un sensor falle antes de las 500 horas de funcionamiento? (1 punto).
+
+
+2. La empresa garantiza el sensor durante 500 horas. ¿Cuál es la probabilidad de que un sensor siga funcionando después de 500 horas? (1 punto).
+
+
+3. ¿Cuál es la tasa instantánea de falla del sensor en cualquier instante t? (1 punto).
+
+
+4. La empresa quiere determinar una garantía de tal manera que solamente el 10% de los sensores haya fallado antes de terminar el periodo de garantía. (1 punto).
+
+## Ejercicio
+
+Una empresa de manufactura estudia el tiempo hasta la falla de un componente mecánico utilizado en una línea de producción. A partir de estudios previos, se considera que el tiempo de vida $T$, medido en horas, puede modelarse mediante una distribución Gamma con parámetros de forma $\alpha = 3$ y tasa $\lambda = 0.002$.
+
+En todos los casos interpreta de acuerdo con el contexto y lo que piden los ejercicios.
+
+
+1. Grafica las funciones de: densidad, distribución acumulada, supervivencia y de riesgo.¿Qué pasa con tasa de falla instantánea a medida que aumenta el tiempo? Grafica para $t\in (0,500].$ (2 puntos).
+
+
+2. La empresa quiere conocer la probabilidad de que un componente falle durante las primeras 1000 horas. ¿Cuál es la probabilidad? (2 puntos).
+
+3. Un componente ya instalado debe operar durante al menos 1,500 horas. ¿Cuál es la probabilidad de que sobreviva más de 1,500 horas? (2 puntos).
+
+
+4. El departamento de mantenimiento quiere conocer la probabilidad de que un componente falle entre las 1000 y las 2000 horas. ¿Cuál es la probabilidad? (2 puntos).
+
+
+5. Calculen la tasa instantánea de falla a las 1000 horas. (2 puntos).
+
+
+6. La empresa quiere establecer un periodo de garantía tal que solamente el 5% de los componentes haya fallado antes de terminar la garantía. Determinen el tiempo que lo satisface. (2 puntos).
+
+
+7. Comenta los retos, dificultades y aprendizajes que te dejo esta práctica. (3 puntos).
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
