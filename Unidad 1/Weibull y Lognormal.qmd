@@ -1,0 +1,249 @@
+---
+title: "Distribuciones Weibull y Lognormal"
+author: "M. en C. Abraham Montoya"
+format:
+    html: 
+      self-contained: true
+      grid: 
+        margin-width: 350px
+
+server: shiny
+---
+
+## Distribución Weibull
+
+Decimos que $T$ tiene distribución Weibull, con parámetro de forma $\alpha$ y tasa $\lambda$, si su función de densidad es:
+
+
+$$f(t;\alpha,\lambda)=\alpha\lambda^\alpha t^{\alpha-1}e^{-(\lambda t)^\alpha},\qquad t>0,\quad \alpha,\lambda>0.$$
+
+::: column-margin
+$$\mathbb{E}[T]=\frac{1}{\lambda}\Gamma\left(1+\frac{1}{\alpha}\right)$$
+
+
+$$\mathbb{V}(T)=\frac{1}{\lambda^2}\left[\Gamma\left(1+\frac{2}{\alpha}\right)-\Gamma^2\left(1+\frac{1}{\alpha}\right)\right].$$
+:::
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+#| context: setup
+#library(shiny)
+#
+```
+
+::: column-margin
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+numericInput(inputId = "forma_w", label = "Forma",
+             value = 2, min = 0.1, max = 3,
+             step = 0.1)
+numericInput(inputId = "tasa_w", label = "Tasa",
+             value = 0.1, min = 0.1, max = 1, 
+             step = 0.1)
+```
+
+:::
+
+
+```{r}
+plotOutput("plot_w", height = 800)
+```
+
+
+
+```{r, warning=FALSE, message=FALSE, echo=FALSE}
+#| context: server
+
+S <- function(t,forma,tasa){
+  value <- 1-pweibull(t,shape = forma,
+                 scale = 1/tasa)
+  return(value)
+}
+
+h <- function(t,forma,tasa){
+  value <- dweibull(t,shape = forma,
+                 scale = 1/tasa)/S(t,forma,tasa)
+  return(value)
+}
+
+output$plot_w <- renderPlot({
+  par(mfrow = c(2,2))
+  curve(dweibull(x,shape = input$forma_w,
+                 scale = 1/input$tasa_w
+                 ),
+        from = 0, to = 20, n = 1000,
+        main = "Densidad", xlab = "t", ylab = "f(t)")
+  curve(pweibull(x,shape = input$forma_w,
+                 scale = 1/input$tasa_w),
+        from = 0, to = 20, n = 1000,
+        main = "Distribución", xlab = "t", 
+        ylab = "F(t)")
+  curve(S(x,forma = input$forma_w,
+                 tasa = input$tasa_w),
+        from = 0, to = 20, n = 1000,
+        main = "Supervivencia", xlab = "t", 
+        ylab = "S(t)")
+  curve(h(x,forma = input$forma_w,
+                 tasa = input$tasa_w),
+        from = 0, to = 20, n = 1000,
+        main = "Riesgo", xlab = "t", ylab = "h(t)")
+  
+},  height = 800)
+```
+
+La función de densidad, de distribución y de cuantiles en R son:
+
+```{r, eval=FALSE,echo=TRUE}
+dweibull(x,shape,scale)
+pweibull(q,shape,scale)
+qweibull(p,shape,scale)
+```
+
+
+### Actividad: Fija el parámetro $\lambda = 0.1$ y mueve el parámetro de forma en los valores 0.5, 1 y 1.5. 
+
+
+¿Qué comportamiento tiene la función de riesgo cuando $\alpha=0.5$? ¿Qué significa esto en el contexto de confiabilidad? (Valor: 1 punto).
+
+¿Qué comportamiento tiene la función de riesgo cuando $\alpha=1$? ¿Qué significa esto en el contexto de confiabilidad? (Valor: 1 punto).
+
+¿Qué comportamiento tiene la función de riesgo cuando $\alpha=1.5$? ¿Qué significa esto en el contexto de confiabilidad? (Valor: 1 punto).
+
+
+## Distribución Log-Normal
+
+Decimos que $T$ tiene distribución **Log-Normal**, con parámetros $\mu$ y $\sigma^2$, si su función de densidad es:
+
+$$
+f(t;\mu,\sigma)=
+\frac{1}{t\sigma\sqrt{2\pi}}
+\exp\left[
+-\frac{(\ln t-\mu)^2}{2\sigma^2}
+\right],
+\qquad t>0,\quad \sigma>0.
+$$
+
+Equivalentemente,
+
+$$
+T\sim\operatorname{LogNormal}(\mu,\sigma^2)
+\quad\Longleftrightarrow\quad
+\ln(T)\sim\mathcal{N}(\mu,\sigma^2).
+$$
+
+En particular, $T$ es log-normal **si y solo si** $\ln(T)$ tiene distribución normal.
+
+::: column-margin
+$$
+\mathbb{E}[T]
+=
+e^{\mu+\frac{\sigma^2}{2}}
+$$
+
+$$
+\mathbb{V}(T)
+=
+\left(e^{\sigma^2}-1\right)
+e^{2\mu+\sigma^2}.
+$$
+:::
+
+
+::: column-margin
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+numericInput(inputId = "mu", label = HTML("&mu;"),
+             value = 3, min = 0.1, max = 10,
+             step = 0.1)
+numericInput(inputId = "sigma", 
+             label =  HTML("&sigma;"),
+             value = 0.5, min = 0.001, max = 3, 
+             step = 0.1)
+```
+
+:::
+
+
+```{r}
+plotOutput("plot_ln", height = 800)
+```
+
+
+
+```{r, warning=FALSE, message=FALSE, echo=FALSE}
+#| context: server
+
+Sln <- function(t,mu,sigma){
+  value <- 1-plnorm(t,meanlog = mu,sdlog = sigma)
+  return(value)
+}
+
+hln <- function(t,mu,sigma){
+  value <- dlnorm(t,meanlog = mu,sdlog = sigma)/Sln(t,mu,sigma)
+  return(value)
+}
+
+output$plot_ln <- renderPlot({
+  xmin <- qlnorm(0.001,
+               meanlog = input$mu,
+               sdlog = input$sigma)
+
+  xmax <- qlnorm(0.99,
+               meanlog = input$mu,
+               sdlog = input$sigma)
+  par(mfrow = c(2,2))
+  curve(dlnorm(x,meanlog = input$mu,
+               sdlog = input$sigma),
+        from = xmin, to = xmax, n = 1000,
+        main = "Densidad", xlab = "t", ylab = "f(t)")
+  curve(plnorm(x,meanlog = input$mu,
+               sdlog = input$sigma),
+        from = xmin, to = xmax, n = 1000,
+        main = "Distribución", xlab = "t", 
+        ylab = "F(t)")
+  curve(Sln(x,mu=input$mu, sigma = input$sigma),
+        from = xmin, to = xmax, n = 1000,
+        main = "Supervivencia", xlab = "t", 
+        ylab = "S(t)")
+  curve(hln(x,mu=input$mu, sigma = input$sigma),
+        from = xmin, to = xmax, n = 1000,
+        main = "Riesgo", xlab = "t", ylab = "h(t)")
+  
+},  height = 800)
+```
+
+
+La función de densidad, de distribución y de cuantiles en R son:
+
+```{r, eval=FALSE,echo=TRUE}
+dlnorm(x,meanlog,sdlog)
+plnorm(q,meanlog,sdlog)
+qlnorm(p,meanlog,sdlog)
+```
+
+### Actividad
+
+¿Qué pasa con la forma de la distribución cuando aumentas el parámetro $\mu$? (Valor: 1 punto).
+
+¿Qué pasa con la forma de la distribución cuando aumentas el valor de $\sigma$? (Valor: 1 punto).
+
+## Ejercicio: Confiabilidad de un componente electrónico
+
+El tiempo de falla $T$, medido en horas, de un componente electrónico se modela mediante una distribución log-normal con parámetros $\mu=8$ y $\sigma = 0.5$
+
+
+1. ¿Cuál es la probabilidad de que un componente falle durante sus primeras 3000 horas de funcionamiento? Interpreta el resultado en el contexto del problema. (Valor: 1 punto).
+
+
+2. ¿Cuál es la probabilidad de que un componente seleccionado al azar continúe funcionando después de 4000 horas? (Valor: 1 punto).
+
+
+3. Calcula el riesgo instantáneo de falla cuando el componente ha alcanzado las 3000 horas de funcionamiento. Interpreta qué representa este valor en términos de confiabilidad. (Valor: 1 punto).
+
+
+4. ¿Cuántas horas deben transcurrir para que haya ocurrido el 90 % de las fallas? (Valor: 1 punto).
+
+5. Comenta los retos, dificultades y aprendizajes que te dejo esta práctica. (3 puntos).
+
+
