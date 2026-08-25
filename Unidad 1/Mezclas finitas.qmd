@@ -1,0 +1,101 @@
+---
+title: "Mezclas finitas"
+author: "M. en C. Abraham Montoya"
+format:
+    pdf: default
+    html: 
+      self-contained: true
+      grid: 
+        margin-width: 350px
+execute: 
+  echo: fenced
+reference-location: margin
+citation-location: margin
+---
+
+
+Decimos que la variable aleatoria $T$, que representa el tiempo de falla de un componente, tiene una distribución de mezcla finita de dos poblaciones si su función de densidad está dada por:
+
+
+$$f(t)=\omega f_1(t) + (1-\omega)f_2(t)$$
+
+
+Donde $f_1,f_2$ son funciones de densidad y $0\le \omega\le1$ es la proporción de componentes pertenecientes a la población 1.
+
+
+
+En otras palabras, cada componente pertenece a una de las dos poblaciones, pero la población a la que pertenece no necesariamente es observable. La variable $T$ representa el tiempo de falla observado, mientras que la población de origen puede considerarse una **variable latente**.
+
+
+::: column-margin
+$$\mathbb{E}[T]=\omega \mu_1+(1-\omega)\mu_2$$
+$$\mathbb{V}[T]=\omega\sigma_1^2+(1-\omega)\sigma_2^2 + \omega(1-\omega)(\mu_1-\mu_2)^2.$$
+Donde $\mu_1, \sigma_1^2$ son la media y varianza de la población 1 y $\mu_2, \sigma_2^2$ son la media y la varianza de la población 2.
+
+:::
+
+A partir de la definición anterior es facil ver que:
+
+
+$$F(t)=\omega F_1(t) + (1-\omega)F_2(t).$$
+
+Con las funciones $f(t)$ y $F(t)$ es facil obtener $S(t)$ y $h(t)$, sin embargo, la función quantil suele requerir el uso de **métodos númericos**.
+
+
+
+## Ejemplo
+
+Una empresa fabrica módulos electrónicos. A partir de datos históricos se estima que:
+
+
+- El 65 % de los módulos pertenece a una población cuyo tiempo de falla sigue una distribución aproximadamente exponecial com tasa de fallo $\lambda = 0.20$  y
+
+- el 35% de los módulos sigue una distribución log-normal con parámetros $\mu=1.2,\sigma=0.5$.
+
+
+1. Grafica las funciones: $f(t)$, $F(t)$, $S(t)$ y $h(t)$. (Valor: 1 punto)
+
+2. Determine la probabilidad de que un módulo falle durante los primeros 3 años: (Valor: 1 punto)
+
+
+3. Determine la confiabilidad del módulo después de 5 años: (Valor: 1 punto)
+
+
+4. La empresa quiere determinar una garantía de tal manera que solamente el 10% de los módulos haya fallado antes de terminar el periodo de garantía. (Valor: 1 punto).
+
+
+
+
+## Ejercicio 
+
+Una planta utiliza motores industriales provenientes de dos proveedores. Los registros históricos indican que los tiempos de falla presentan dos comportamientos claramente diferenciados.
+
+
+- El 40 % de los motores proviene del proveedor A y presenta fallas asociadas a múltiples pequeños eventos de desgaste, el tiempo de falla de estos motores sigue una distribución Gamma con parámetro forma $\alpha = 2$ y tasa $\lambda = 0.5$.
+
+- El 60% proviene del proveedor B siguen una distribución log-normal con parámetros $\mu=2,\sigma=0.2$.(Valor: 1 punto)
+
+
+
+
+
+
+
+1. Grafica las funciones: $f(t)$, $F(t)$, $S(t)$ y $h(t)$. (Valor: 2 puntos)
+
+2. Determine la probabilidad de que un motor falle durante las primeras 5 mil horas: (Valor: 2 puntos)
+
+
+3. Determine la probabilidad de que un motor siga funcionando más de 10 mil horas : (Valor: 2 puntos)
+
+
+4. La empresa quiere determinar una garantía de tal manera que solamente el 5% de los motores haya fallado antes de terminar el periodo de garantía. (Valor: 2 puntos).
+
+
+5. Comenta los retos, dificultades y aprendizajes que te dejo esta práctica. (Valor: 3 puntos).
+
+
+
+
+
+
