@@ -1,0 +1,165 @@
+---
+title: "Distribución logística y log-logística"
+author: "M. en C. Abraham Montoya"
+format:
+    pdf: default
+    html: 
+      self-contained: true
+      grid: 
+        margin-width: 350px
+execute: 
+  echo: fenced
+reference-location: margin
+citation-location: margin
+---
+
+
+## Distribución logística
+
+Sea $T$ el tiempo de falla de un componente. Decimos que $T$ sigue una
+distribución logística con parámetros de localización $\mu$ y escala
+$\sigma>0$ si su función de densidad es:
+
+$$f(t;\mu,\sigma)
+=
+\frac{
+\exp\left(-\frac{t-\mu}{\sigma}\right)
+}{
+\sigma\left[
+1+\exp\left(-\frac{t-\mu}{\sigma}\right)
+\right]^2
+},
+\qquad -\infty<t<\infty.$$
+
+
+
+::: column-margin
+
+$$\mathbb{E}[T]=\mu$$
+$$\mathbb{V}[T]
+=
+\frac{\pi^2\sigma^2}{3}.$$
+:::
+
+
+
+
+En R, la función de densidad, probabilidad acumulada y función quantil se obtienen mediante: 
+
+
+
+```{r, eval=FALSE}
+dlogis(t, location = mu, scale = s)
+plogis(t, location = mu, scale = s)
+qlogis(p, location = mu, scale = s)
+```
+
+Aunque la distribución logística puede utilizarse para modelar tiempos de
+falla, presenta una limitación importante en este contexto. Su dominio es
+
+$$-\infty < t < \infty.$$
+
+
+
+## Distribución Log-logística
+
+La distribución log-logística es una distribución para tiempos de vida
+definida a partir de la distribución logística. Si
+
+$$T\sim\operatorname{LOGLOGIS}(\mu,\sigma),$$
+
+entonces
+
+$$\log(T)\sim\operatorname{LOGIS}(\mu,\sigma),
+\qquad \sigma>0.$$
+
+Por lo tanto, el dominio de \(T\) es
+
+\[
+t>0.
+\]
+
+
+
+La función de densidad es
+
+$$f(t;\mu,\sigma)
+=
+\frac{1}{\sigma t}
+\phi_{\mathrm{logis}}
+\left(
+\frac{\log(t)-\mu}{\sigma}
+\right),
+\qquad t>0,$$
+
+donde \(\phi_{\mathrm{logis}}\) es la densidad de una logística
+estandarizada.
+
+::: column-margin
+Para $\sigma<1$, la media de $T$ es
+
+$$\mathbb{E}[T]
+=
+e^\mu
+\Gamma(1+\sigma)
+\Gamma(1-\sigma).$$
+
+La media no existe para
+
+$$\sigma\geq 1.$$
+Para \(\sigma<\frac{1}{2}\), la varianza es
+
+$$\mathbb{V}(T)
+=
+e^{2\mu}
+\left[
+\Gamma(1+2\sigma)\Gamma(1-2\sigma)
+-
+\Gamma^2(1+\sigma)\Gamma^2(1-\sigma)
+\right].$$
+
+La varianza no existe para
+
+$$\sigma\geq\frac{1}{2}.$$
+:::
+
+
+En R, la densidad, distribución acumulada y función cuantil se pouede obtener con:
+
+
+
+
+```{r, eval=FALSE}
+library(flexsurv)
+dllogis(t, shape, scale)    
+pllogis(t, shape, scale)   
+qllogis(p, shape, scale)    
+```
+
+
+
+
+## Ejercicio
+
+Una empresa fabrica rodamientos industriales para maquinaria de alta precisión. El área de confiabilidad ha registrado los tiempos de falla de los rodamientos y, después de analizar los datos históricos, se propone modelar el tiempo de falla mediante una distribución **log-logística**.
+
+Se considera que el tiempo de falla $T$, medido en **miles de horas**, sigue una distribución log-logística con parámetros de forma $\alpha=3$ y escala $\beta=8$:
+
+$$
+T\sim\operatorname{LogLogistic}(\alpha=3,\beta=8).
+$$
+
+1. Grafica las funciones: $f(t)$, $F(t)$, $S(t)$ y $h(t)$. (Valor: 2 puntos)
+
+2. Determine la probabilidad de que un rodamiento siga funcionando después de 10 mil horas: (Valor: 2 puntos)
+
+3. Determine la probabilidad de que un rodamiento falle durante las primeras 5 mil horas: (Valor: 2 puntos)
+
+4. La empresa desea establecer un periodo de garantía de manera que solamente el 5% de los rodamientos haya fallado antes de finalizar la garantía. Determine el tiempo de garantía correspondiente: (Valor: 2 puntos)
+
+5. Comenta los retos, dificultades y aprendizajes que te dejo esta práctica. (Valor: 3 puntos).
+
+
+
+
+
