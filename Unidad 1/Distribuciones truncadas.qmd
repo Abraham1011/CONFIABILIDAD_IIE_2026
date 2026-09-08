@@ -1,0 +1,134 @@
+---
+title: "Distribuciones truncadas"
+author: "M. en C. Abraham Montoya"
+format:
+    pdf: default
+    html: 
+      self-contained: true
+      grid: 
+        margin-width: 350px
+execute: 
+  echo: fenced
+reference-location: margin
+citation-location: margin
+---
+
+## Distribuciones truncadas
+
+Sea $T$ el tiempo de falla de un componente, con función de densidad
+$f_T(t)$ y función de distribución $F_T(t)$.
+
+Una distribución truncada se obtiene cuando solo consideramos componentes cuyo
+tiempo de falla se encuentra dentro de un intervalo:
+
+$$
+a < T < b.
+$$
+
+La distribución truncada corresponde a la distribución condicional
+
+$$
+T \mid a<T<b.
+$$
+
+
+::: column-margin
+En general, la media y la varianza no se pueden obtener de forma analítica, por lo tanto, se tienen que aproximar mediante métodos numéricos. 
+:::
+
+Recordar que, algunas distribuciones conocidas, como la normal, no se pueden
+utilizar directamente en confiabilidad, esto porque $T$ podría tomar valores
+entre $(-\infty,\infty)$. Entonces, podemos utilizar distribuciones truncadas
+(condicionadas) en $T>0$ y superar esa limitante.
+
+Así, la densidad truncada en cero resulta en
+
+$$
+f_{T^*}(t)
+=
+\frac{f_T(t)}
+{1-F_T(0)},
+\qquad t>0.
+$$
+
+y la distribución en:
+
+$$
+F_{T^*}(t)
+=
+\frac{F_T(t)-F_T(0)}
+{1-F_T(0)},
+\qquad t>0.
+$$
+
+En este caso, $T^*$ representa el tiempo de falla condicionado a que sea
+positivo:
+
+$$
+T^* = T\mid T>0.
+$$
+
+
+
+A partir de la funciones de densidad y probabilidad acumulada programadas en R, es facil obtener las funciones de densidad y probabilidad acumulada truncadas, en el contexto de la materia, truncadas en $T=0$.
+
+
+## Ejemplo: distribución normal truncada
+
+Suponga que $T$ tiene una distribución normal con parámetros
+
+$$T\sim N(\mu=4,\sigma^2 = 3^2).$$
+
+
+
+1. Grafique la densidad $T$ de en el intervalo $(-5.5,15.5)$. (valor: 1 punto)
+
+
+
+2. Grafique la densidad de $T$ y $T^*$ en el intervalo $(-5.5,15.5)$. (valor: 1 punto)
+
+
+
+3. Grafique la densidad de $T$ y $T^*$ en el intervalo $(0.01,15.5)$. (valor: 1 punto)
+
+
+
+3. Graficar, para la distribución truncada, la funciones: $f, F, S$. y $h$. (valor: 1 punto)
+
+
+
+4. ¿Qué observas de las gráficas? ¿Por qué se da ese comportamiento? (valor: 1 punto)
+
+
+
+5. Calcula la probabilidad de que $T^* > 10$. (valor: 1 punto)
+
+
+
+6. ¿Qué valor de $t$ hace que $P[T^*<t]=0.10$ ? (valor: 1 punto)
+
+## Ejercicio
+
+Una empresa fabrica rodamientos industriales para maquinaria de alta precisión. 
+Se sabe que el tiempo de falla, medido en **miles de horas**, tiene una distribución **logística
+truncada en cero** con parámetros $\mu=6,\sigma=5$.
+
+
+
+1. Grafica las funciones: $f(t)$, $F(t)$, $S(t)$ y $h(t)$. (Valor: 2 puntos)
+
+
+2. Determina la probabilidad de que un rodamiento siga funcionando después de
+las **10 mil horas**. (Valor: 2 puntos)
+
+
+3. La empresa desea establecer un periodo de garantía de manera que solamente el
+**10% de los rodamientos** haya fallado antes de finalizar la garantía. Determina el tiempo de garantía.  (Valor: 2 puntos)
+
+4. Una empresa recibe un lote de 30 rodamientos industriales de un proveedor. Antes de aceptar el lote, el área de confiabilidad establece como criterio que un rodamiento debe ser capaz de operar durante al menos 10 mil horas. La empresa aceptará el lote si al menos 27 de los 30 rodamientos cumplen con este requisito. Determine la probabilidad de que la empresa acepte el lote. (Valor: 2 puntos)
+
+5. Comenta los retos, dificultades y aprendizajes que te dejo esta práctica. (Valor: 3 puntos).
+
+
+
+
