@@ -1,0 +1,86 @@
+---
+title: "Otras Distribuciones"
+author: "M. en C. Abraham Montoya"
+format:
+    pdf: default
+    html: 
+      self-contained: true
+      grid: 
+        margin-width: 350px
+execute: 
+  echo: fenced
+reference-location: margin
+citation-location: margin
+---
+
+
+# Distribución de Laplace
+
+La distribución de Laplace resulta de la diferencia de dos variables exponenciales aleatorias, independientes e idénticamente distribuidas.
+
+
+Decimos que $T$ tiene distribución Laplace si su función de densidad es:
+
+
+$$f(t;\mu,b)=\frac{1}{2b}\exp{-\frac{|x-\mu|}{b}}$$
+para $t\in(-\infty,\infty).$
+
+::: column-margin
+$$\mathbb{E}[T]=\mu$$
+
+$$\mathbb{V}[T]=2b^2$$
+:::
+
+En R, la distribución Laplace está en el paquete *extraDistr*:
+
+
+```{r, eval=FALSE}
+library(extraDistr)
+dlaplace(x, mu, sigma)
+plaplace(q, mu, sigma)
+qlaplace(p, mu, sigma)
+rlaplace(n, mu, sigma)
+```
+
+
+
+# Ejemplo
+
+Se sabe que la distribución del tiempo de vida de un componente, en miles de horas, tiene una distribución Laplace truncada en cero, con parámetros $\mu=5, b=3$.
+
+
+1. Grafica las funciones: $f(t)$, $F(t)$, $S(t)$ y $h(t)$. (Valor: 2 puntos)
+
+
+
+
+2. Determina la probabilidad de que un componente siga funcionando después de
+las **2 mil horas**. (Valor: 2 puntos)
+
+
+
+3. La empresa desea establecer un periodo de garantía de manera que solamente el
+**10% de los componente** haya fallado antes de finalizar la garantía. Determina el tiempo de garantía.  (Valor: 2 puntos)
+
+
+4. Una empresa recibe un lote de 30 componente industriales de un proveedor. Antes de aceptar el lote, el área de confiabilidad establece como criterio que un componente debe ser capaz de operar durante al menos 2 mil horas. La empresa aceptará el lote si al menos 25 de los 30 componente cumplen con este requisito. Determine la probabilidad de que la empresa acepte el lote. (Valor: 2 puntos)
+
+
+
+5. Comenta los retos, dificultades y aprendizajes que te dejo esta práctica. (Valor: 3 puntos).
+
+
+
+6. Comenta los retos, dificultades y aprendizajes que te dejo la unidad 1. (Valor: 3 puntos).
+
+
+
+
+
+
+
+
+
+
+
+
