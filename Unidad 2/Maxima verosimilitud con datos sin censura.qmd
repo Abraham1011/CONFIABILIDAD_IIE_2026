@@ -438,29 +438,34 @@ En términos generales, AIC y BIC pueden conducir a selecciones diferentes porqu
 
 # Ejemplo
 
-Una empresa fabricante de componentes mecánicos para equipos industriales desea establecer el tiempo de garantía de uno de sus productos. Para ello, se realizó una prueba de vida con una muestra de componentes sometidos a condiciones de operación similares a las de uso normal. Para cada componente se registró el tiempo hasta la falla, medido en horas.
+Una empresa fabricante de componentes mecánicos para equipos industriales desea establecer el tiempo de garantía de uno de sus productos. Para ello, se realizó una prueba de vida con una muestra de $n=100$ componentes sometidos a condiciones de operación similares a las de uso común. Para cada componente se registró el tiempo hasta la falla, medido en horas.
 
 La empresa desea establecer un tiempo de garantía $T_g$ de manera que solamente el
 **10% de los componente** haya fallado antes de finalizar la garantía.
 
 
-1. Crea un histograma para los tiempos de falla e interpreta, ¿a qué distribuciones de las que conoces se parece? 
+1. Crea un histograma para los tiempos de falla e interpreta, ¿a qué distribuciones de las que conoces se parece? (Valor: 2 puntos).
 
 
-2. Ajusta un modelo exponencial estimando los parámetros por máxima verosimilitud. 
+2. Ajusta un modelo exponencial estimando los parámetros por máxima verosimilitud. (Valor: 2 puntos).
 
 
-3. Ajusta un modelo con la distribución normal truncada estimando los parámetros por máxima verosimilitud. 
+3. Ajusta un modelo con la distribución normal truncada estimando los parámetros por máxima verosimilitud. (Valor: 2 puntos).
 
 
-4. Calcula el AIC y BIC para el modelo exponencial. 
+4. Calcula el AIC y BIC para el modelo exponencial. (Valor: 2 puntos).
 
 
-5. Calcula el AIC y BIC para el modelo normal. 
+5. Calcula el AIC y BIC para el modelo normal. (Valor: 2 puntos).
 
 
-6. ¿Con cúal modelo te quedas? y ¿Por qué?
+6. ¿Con cúal modelo te quedas? y ¿Por qué? (Valor: 2 puntos).
 
 
-7. Determina el tiempo de garantía para los componentes mecánicos.
+7. Determina el tiempo de garantía para los componentes mecánicos. (Valor: 2 puntos).
+
+
+8. Comenta los retos, dificultades y aprendizajes que te dejo esta práctica. (Valor: 3 puntos).
+
+
 
