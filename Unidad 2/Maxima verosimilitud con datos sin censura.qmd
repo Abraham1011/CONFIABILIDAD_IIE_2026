@@ -1,0 +1,466 @@
+---
+title: "Estimación por máxima verosimilitud con datos sin censura"
+author: "M. en C. Abraham Montoya"
+format:
+    pdf: default
+    html: 
+      self-contained: true
+      grid: 
+        margin-width: 350px
+execute: 
+  echo: fenced
+reference-location: margin
+citation-location: margin
+---
+
+# Introducción
+
+Hasta este punto se han estudiado distintas distribuciones de vida y sus funciones asociadas, como la función de densidad $f(t)$, la función de distribución $F(t)$, la función de supervivencia $S(t)$ y la función de riesgo $h(t)$. Sin embargo, en la práctica, los parámetros de estas distribuciones generalmente son desconocidos y deben ser estimados a partir de los datos observados.
+
+Cuando se dispone de datos completos de vida, es decir, cuando se observa el **tiempo exacto de falla de cada unidad bajo estudio**, la inferencia por **máxima verosimilitud** proporciona un método sistemático para estimar los parámetros de la distribución. La idea consiste en encontrar los valores de los parámetros que hacen más compatibles los datos observados con el modelo probabilístico propuesto.
+
+Si $T_1,T_2,\ldots,T_n$ representan tiempos de falla independientes con función de densidad $f(t;\boldsymbol{\theta})$, donde $\boldsymbol{\theta}$ es el vector de parámetros desconocidos, la información contenida en la muestra puede expresarse mediante la función de verosimilitud
+
+$$
+L(\boldsymbol{\theta})
+=
+\prod_{i=1}^{n}
+f(t_i;\boldsymbol{\theta}).
+$$
+
+El estimador de máxima verosimilitud se obtiene entonces como
+
+$$
+\widehat{\boldsymbol{\theta}}
+=
+\underset{\boldsymbol{\theta}}{\operatorname{arg\,max}}
+\;L(\boldsymbol{\theta}).
+$$
+
+En este documento se estudiará este procedimiento para la estimación de parámetros en modelos de confiabilidad utilizando **datos sin censura**. Se partirá de la construcción de la función de verosimilitud y su forma logarítmica, para posteriormente obtener los estimadores y analizar su implementación computacional en R.
+
+
+# Ejemplo: distribución exponencial
+
+Consideremos una muestra de tiempos de falla
+
+$$
+T_1,T_2,\ldots,T_n
+$$
+
+que se supone independiente e idénticamente distribuida según una distribución exponencial con parámetro de tasa $\lambda>0$. Su función de densidad es
+
+$$
+f(t;\lambda)=\lambda e^{-\lambda t},
+\qquad t>0.
+$$
+
+El objetivo es utilizar los tiempos de falla observados
+
+$$
+t_1,t_2,\ldots,t_n
+$$
+
+para obtener un estimador de máxima verosimilitud de $\lambda$.
+
+## 1. Construcción de la función de verosimilitud
+
+La función de verosimilitud se obtiene evaluando la densidad en cada uno de los datos observados y multiplicando las contribuciones individuales. Debido a que las observaciones son independientes,
+
+$$
+L(\lambda)
+=
+\prod_{i=1}^{n}f(t_i;\lambda).
+$$
+
+Sustituyendo la densidad de la distribución exponencial,
+
+$$
+L(\lambda)
+=
+\prod_{i=1}^{n}
+\lambda e^{-\lambda t_i}.
+$$
+
+Separando los términos,
+
+$$
+L(\lambda)
+=
+\lambda^n
+e^{-\lambda\sum_{i=1}^{n}t_i}.
+$$
+
+Esta función indica qué tan compatibles son los datos observados con cada posible valor de $\lambda$.
+
+El estimador de máxima verosimilitud será el valor de $\lambda$ que maximice esta función:
+
+$$
+\widehat{\lambda}
+=
+\underset{\lambda>0}{\operatorname{arg\,max}}
+\;L(\lambda).
+$$
+
+## 2. Construcción de la log-verosimilitud
+
+Trabajar directamente con la función de verosimilitud puede resultar incómodo debido al producto de $n$ términos. Por ello se utiliza el logaritmo natural, que transforma los productos en sumas.
+
+Definimos la función de log-verosimilitud como
+
+$$
+\ell(\lambda)=\log L(\lambda).
+$$
+
+Entonces,
+
+$$
+\ell(\lambda)
+=
+\log
+\left(
+\lambda^n
+e^{-\lambda\sum_{i=1}^{n}t_i}
+\right).
+$$
+
+Aplicando las propiedades de los logaritmos,
+
+$$
+\ell(\lambda)
+=
+n\log(\lambda)
+-
+\lambda\sum_{i=1}^{n}t_i.
+$$
+
+Por tanto,
+
+$$
+\boxed{
+\ell(\lambda)
+=
+n\log(\lambda)
+-
+\lambda\sum_{i=1}^{n}t_i
+}
+$$
+
+es la función que debemos maximizar.
+
+Es importante notar que maximizar $L(\lambda)$ y maximizar $\ell(\lambda)$ produce exactamente el mismo estimador, ya que el logaritmo es una función estrictamente creciente.
+
+## 3. Derivación de la log-verosimilitud
+
+Para encontrar el máximo, derivamos la log-verosimilitud con respecto al parámetro $\lambda$:
+
+$$
+\frac{d\ell(\lambda)}{d\lambda}
+=
+\frac{n}{\lambda}
+-
+\sum_{i=1}^{n}t_i.
+$$
+
+
+## 4. Igualar a cero y despejar el parámetro
+
+En un punto donde se alcanza el máximo, la primera derivada debe ser igual a cero. Por lo tanto,
+
+$$
+\frac{n}{\lambda}
+-
+\sum_{i=1}^{n}t_i
+=
+0.
+$$
+
+Reordenando,
+
+$$
+\frac{n}{\lambda}
+=
+\sum_{i=1}^{n}t_i.
+$$
+
+Multiplicando ambos lados por $\lambda$,
+
+$$
+n
+=
+\lambda
+\sum_{i=1}^{n}t_i.
+$$
+
+Finalmente,
+
+$$
+\widehat{\lambda}
+=
+\frac{n}
+{\displaystyle\sum_{i=1}^{n}t_i}.
+$$
+
+Como
+
+$$
+\overline{T}
+=
+\frac{1}{n}
+\sum_{i=1}^{n}T_i,
+$$
+
+podemos escribir el estimador de una forma más intuitiva:
+
+$$
+\boxed{
+\widehat{\lambda}
+=
+\frac{1}{\overline{T}}
+}
+$$
+
+Es decir, para una distribución exponencial, el estimador de máxima verosimilitud de la tasa de falla es el inverso del tiempo de vida promedio observado.
+
+## 5. Verificación de que se trata de un máximo
+
+Para comprobar que el punto crítico corresponde a un máximo, calculamos la segunda derivada:
+
+$$
+\frac{d^2\ell(\lambda)}{d\lambda^2}
+=
+-\frac{n}{\lambda^2}.
+$$
+
+Como $\lambda>0$ y $n>0$,
+
+$$
+-\frac{n}{\lambda^2}<0.
+$$
+
+Por lo tanto el punto crítico encontrado corresponde a un máximo.
+
+Así, el estimador de máxima verosimilitud es
+
+$$
+\boxed{
+\widehat{\lambda}_{MV}
+=
+\frac{1}{\overline{T}}
+}.
+$$
+
+## 6. Ejemplo numérico
+
+Supongamos que se observan los siguientes tiempos de falla, en horas:
+
+$$
+40,\quad 55,\quad 70,\quad 90,\quad 120.
+$$
+
+En este caso,
+
+$$
+n=5
+$$
+
+y
+
+$$
+\sum_{i=1}^{5}t_i
+=
+40+55+70+90+120
+=
+375.
+$$
+
+Por lo tanto,
+
+$$
+\widehat{\lambda}
+=
+\frac{5}{375}
+=
+0.01333.
+$$
+
+Equivalentemente, como
+
+$$
+\overline{T}=\frac{375}{5}=75,
+$$
+
+tenemos
+
+$$
+\widehat{\lambda}
+=
+\frac{1}{75}
+=
+0.01333.
+$$
+
+La tasa de falla estimada mediante máxima verosimilitud es, por tanto,
+
+$$
+\boxed{
+\widehat{\lambda}=0.01333\ \text{fallas/hora}
+}.
+$$
+
+# ¿Siempre podemos obtener el estimador de esta manera?
+
+No. El ejemplo es particularmente conveniente porque podemos realizar todo el procedimiento de forma analítica.
+
+Para algunas distribuciones relativamente sencillas es posible obtener expresiones cerradas para los estimadores de máxima verosimilitud. Sin embargo, esto constituye más bien una excepción que la regla.
+
+En muchos modelos utilizados en confiabilidad, la ecuación obtenida al derivar la log-verosimilitud **no puede resolverse algebraicamente**. Incluso cuando puede escribirse la ecuación, encontrar explícitamente
+
+$$
+\widehat{\boldsymbol{\theta}}
+$$
+
+puede resultar imposible mediante operaciones elementales.
+
+En esos casos, el estimador de máxima verosimilitud se obtiene mediante **métodos numéricos de optimización**. En lugar de despejar los parámetros manualmente, se busca computacionalmente el valor que maximiza la log-verosimilitud:
+
+$$
+\widehat{\boldsymbol{\theta}}
+=
+\underset{\boldsymbol{\theta}}{\operatorname{arg\,max}}
+\;
+\ell(\boldsymbol{\theta}).
+$$
+
+Por ello, en la práctica es utiliza software estadístico para realizar la estimación. 
+
+
+# Selección del modelo
+
+En un problema de confiabilidad, conocer los tiempos de falla observados no implica necesariamente conocer la distribución de probabilidad que los generó. Por ejemplo, una muestra de tiempos de vida podría modelarse mediante una distribución exponencial, Weibull, lognormal, gamma u otra distribución de vida.
+
+Por esta razón, en la práctica puede ser necesario considerar varios **modelos candidatos** y comparar qué tan bien describen los datos.
+
+Supongamos que tenemos \(K\) modelos candidatos,
+
+$$
+M_1,M_2,\ldots,M_K,
+$$
+
+y que cada modelo tiene un vector de parámetros \(\boldsymbol{\theta}_k\). Después de estimar los parámetros mediante máxima verosimilitud, obtenemos para cada modelo
+
+$$
+\widehat{\boldsymbol{\theta}}_k
+=
+\underset{\boldsymbol{\theta}_k}{\operatorname{arg\,max}}
+\;
+L_k(\boldsymbol{\theta}_k).
+$$
+
+Una vez estimados los parámetros, podemos comparar los modelos mediante diferentes criterios.
+
+## Criterio de información de Akaike (AIC)
+
+El **criterio de información de Akaike**, conocido como AIC, combina dos aspectos:
+
+1. qué tan bien se ajusta el modelo a los datos;
+2. cuántos parámetros utiliza el modelo.
+
+Se define como
+
+$$
+\boxed{
+\operatorname{AIC}
+=
+-2\ell(\widehat{\boldsymbol{\theta}})
++
+2p
+}
+$$
+
+donde
+
+$$
+\ell(\widehat{\boldsymbol{\theta}})
+$$
+
+es la log-verosimilitud evaluada en el estimador de máxima verosimilitud y $p$ es el número de parámetros estimados.
+
+El primer término,
+
+$$
+-2\ell(\widehat{\boldsymbol{\theta}}),
+$$
+
+favorece modelos con mayor verosimilitud, mientras que
+
+$$
+2p
+$$
+
+penaliza los modelos con un mayor número de parámetros.
+
+Por lo tanto, al comparar varios modelos mediante AIC, se prefiere el modelo que tenga el **menor valor de AIC**.
+
+La idea fundamental es evitar seleccionar automáticamente el modelo más complejo únicamente porque puede conseguir un mejor ajuste. Un modelo con más parámetros tiene, en general, mayor capacidad para adaptarse a los datos, pero esa flexibilidad tiene un costo.
+
+## Criterio de información bayesiano (BIC)
+
+Otro criterio ampliamente utilizado es el **criterio de información bayesiano**, conocido como BIC:
+
+$$
+\boxed{
+\operatorname{BIC}
+=
+-2\ell(\widehat{\boldsymbol{\theta}})
++
+p\log(n)
+}$$
+
+donde nuevamente $p$ es el número de parámetros y $n$ es el tamaño de muestra.
+
+La diferencia principal respecto al AIC está en la penalización:
+
+$$2p$$
+
+para AIC, mientras que BIC utiliza
+
+$$
+p\log(n).
+$$
+
+por lo que BIC aplica una penalización mayor por parámetro que AIC.
+
+Al igual que con AIC, **se prefiere el modelo con menor BIC**.
+
+En términos generales, AIC y BIC pueden conducir a selecciones diferentes porque utilizan criterios de penalización distintos. 
+
+
+# Ejemplo
+
+Una empresa fabricante de componentes mecánicos para equipos industriales desea establecer el tiempo de garantía de uno de sus productos. Para ello, se realizó una prueba de vida con una muestra de componentes sometidos a condiciones de operación similares a las de uso normal. Para cada componente se registró el tiempo hasta la falla, medido en horas.
+
+La empresa desea establecer un tiempo de garantía $T_g$ de manera que solamente el
+**10% de los componente** haya fallado antes de finalizar la garantía.
+
+
+1. Crea un histograma para los tiempos de falla e interpreta, ¿a qué distribuciones de las que conoces se parece? 
+
+
+2. Ajusta un modelo exponencial estimando los parámetros por máxima verosimilitud. 
+
+
+3. Ajusta un modelo con la distribución normal truncada estimando los parámetros por máxima verosimilitud. 
+
+
+4. Calcula el AIC y BIC para el modelo exponencial. 
+
+
+5. Calcula el AIC y BIC para el modelo normal. 
+
+
+6. ¿Con cúal modelo te quedas? y ¿Por qué?
+
+
+7. Determina el tiempo de garantía para los componentes mecánicos.
+
