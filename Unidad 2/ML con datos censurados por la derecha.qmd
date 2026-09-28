@@ -1,0 +1,48 @@
+---
+title: "Estimación por máxima verosimilitud con datos censurados por la derecha"
+author: "M. en C. Abraham Montoya"
+format:
+    pdf: default
+    html: 
+      self-contained: true
+      grid: 
+        margin-width: 350px
+execute: 
+  echo: fenced
+reference-location: margin
+citation-location: margin
+---
+
+
+
+# Ejemplo 
+
+Una empresa dedicada a la fabricación de componentes electrónicos para equipos industriales desea establecer un periodo de garantía para uno de sus productos. Antes de definirlo, realizó una prueba de vida con $n = 200$ componentes, registrando el tiempo transcurrido hasta que cada componente presentó una falla.
+
+La prueba se realizó bajo condiciones controladas. Sin embargo, por cuestiones de **tiempo y costo**, el experimento se **dio por terminado cuando transcurrieron 7 mil horas**. Los componentes que presentaron una falla antes de ese momento tienen registrado su tiempo de falla. Para los componentes que continuaban funcionando al finalizar la prueba, únicamente se sabe que su tiempo de falla es posterior al momento en que terminó el experimento.
+
+### Actividad
+
+1. **Exploración de los datos.**
+  Construye un histograma de los tiempos de falla y analiza su distribución. ¿Observas algún comportamiento particular o algún valor que pueda resultar sospechoso? Explica qué podría estar ocurriendo con las observaciones que se concentran en un mismo valor.
+
+2. **Ignorando las observaciones censuradas.**
+Supón que decides ignorar las observaciones censuradas y trabajar únicamente con los tiempos de falla completamente observados. Bajo el supuesto de que los tiempos de falla siguen una distribución exponencial, estima el parámetro de tasa $\lambda$ mediante el método de máxima verosimilitud.
+
+3. **Tratando las observaciones censuradas como fallas.**
+Ahora utiliza todos los tiempos registrados, incluyendo las observaciones cuyo valor es 7, pero suponiendo que estos valores representan tiempos de falla observados. Estima nuevamente el parámetro $\lambda$ mediante máxima verosimilitud.
+
+4. **Considerando la censura por la derecha.**
+Finalmente, considera correctamente la información contenida en las observaciones censuradas por la derecha. Construye la función de verosimilitud correspondiente y estima el parámetro $\lambda$ mediante máxima verosimilitud.
+
+5. **Comparación de los estimadores.**
+Se sabe que los datos fueron generados a partir de una distribución exponencial con parámetro de tasa $\lambda=0.2$. Compara las tres estimaciones obtenidas en los ejercicios anteriores. ¿Cuál de ellas se encuentra más cercana al valor verdadero? Explica por qué los diferentes tratamientos de las observaciones censuradas producen estimaciones diferentes.
+
+6. **Determinación del periodo de garantía.**
+La empresa desea establecer un periodo de garantía de manera que, de acuerdo con el modelo estimado, **al menos el 90% de los componentes continúen funcionando durante todo el periodo de garantía**. Determina el periodo de garantía correspondiente utilizando el estimador de $\lambda$  obtenido mediante el procedimiento de máxima verosimilitud que considera correctamente la censura por la derecha. Interpreta el resultado en el contexto del problema.
+
+
+
+
+
+
