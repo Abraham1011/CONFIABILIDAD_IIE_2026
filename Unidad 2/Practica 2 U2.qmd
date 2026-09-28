@@ -1,0 +1,55 @@
+---
+title: "Practica 2 Unidad 2"
+author: "M. en C. Abraham Montoya"
+format:
+    pdf: default
+    html: 
+      self-contained: true
+      grid: 
+        margin-width: 350px
+execute: 
+  echo: fenced
+reference-location: margin
+citation-location: margin
+---
+
+
+
+Una empresa fabricante de componentes mecánicos para equipos industriales desea establecer el tiempo de garantía de uno de sus productos. Para ello, se realizó una prueba de vida con una muestra de $n=200$ componentes sometidos a condiciones de operación similares a las de uso común. Para cada componente se registró el tiempo hasta la falla, medido en horas.
+
+La empresa desea establecer un tiempo de garantía $T_g$ de manera que solamente el
+**10% de los componente** haya fallado antes de finalizar la garantía.
+
+
+1. Crea un histograma para los tiempos de falla e interpreta, ¿a qué distribuciones de las que conoces se parece? (Valor: 2 puntos).
+
+
+
+2. Estima por máxima verosimilitud los parámetros para un modelo Gompertz-Makeham. (Valor: 3 puntos).
+
+
+3. Estima por máxima verosimilitud los parámetros para un modelo de mezcla. (Valor: 3 puntos).
+
+
+
+4. ¿Con cúal modelo te quedas? utiliza el $AIC$ y $BIC$ (Valor: 3 puntos).
+
+
+
+5. Crea un histograma para los tiempos de falla y ajusta sobre el la densidad del modelo ajustado. (Valor: 3 puntos).
+
+
+
+6. Grafica las funciones: $f(t)$, $F(t)$, $S(t)$ y $h(t)$. (Valor: 3 puntos)
+
+
+
+7. Determina el tiempo de garantía para los componentes mecánicos. (Valor: 3 puntos).
+
+
+
+8. Comenta los retos, dificultades y aprendizajes que te dejo esta práctica. (Valor: 4 puntos).
+
+
+
+
