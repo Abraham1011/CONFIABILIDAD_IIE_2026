@@ -13,6 +13,88 @@ reference-location: margin
 citation-location: margin
 ---
 
+# Introducción
+
+Para una muestra de tiempos de falla $t_1,\ldots,t_n$ i.i.d , cuya distribución depende de un vector de parámetros $\boldsymbol{\theta}$, cuando todos los tiempos de falla son completamente observados, la función de verosimilitud está dada por
+
+$$
+L(\boldsymbol{\theta};datos)
+=
+\prod_{i=1}^{n} f(t_i;\boldsymbol{\theta}),
+$$
+
+donde $f(t_i;\boldsymbol{\theta})$ es la función de densidad del tiempo de falla.
+
+En estudios de confiabilidad, sin embargo, es común que algunos componentes no fallen antes de que termine el experimento. En estos casos no se conoce su tiempo exacto de falla, sino únicamente que este es mayor que el tiempo durante el cual fue observado el componente. Esta situación se conoce como **censura por la derecha**.
+
+Sea $T_i$ el tiempo de falla del componente $i$ y sea $C_i$ su tiempo de censura. Debido a la censura, el tiempo observado puede expresarse como
+
+$$
+t_i=\min(T_i,C_i),
+$$
+
+junto con un indicador $\delta_i$ definido como
+
+$$
+\delta_i =
+\begin{cases}
+1, & \text{si el componente presentó una falla},\\
+0, & \text{si el componente fue censurado por la derecha}.
+\end{cases}
+$$
+
+Cuando $\delta_i=1$, se conoce el tiempo exacto de falla $t_i$, por lo que la contribución de la observación a la verosimilitud es
+
+$$
+f(t_i;\boldsymbol{\theta}).
+$$
+
+Cuando $\delta_i=0$, únicamente se sabe que el componente continuaba funcionando en el tiempo $t_i$, es decir,
+
+$$
+T_i>t_i.
+$$
+
+Por lo tanto, su contribución a la verosimilitud corresponde a la función de supervivencia
+
+$$
+S(t_i;\boldsymbol{\theta})
+=
+P(T_i>t_i)
+=
+1-F(t_i;\boldsymbol{\theta}).
+$$
+
+Así, la función de verosimilitud para una muestra con tiempos de falla observados y tiempos censurados por la derecha puede escribirse en su forma general como
+
+$$
+L(\boldsymbol{\theta};datos)
+=
+\prod_{i=1}^{n}
+\left[
+f(t_i;\boldsymbol{\theta})
+\right]^{\delta_i}
+\left[
+S(t_i;\boldsymbol{\theta})
+\right]^{1-\delta_i}.
+$$
+
+Equivalentemente,
+
+$$
+L(\boldsymbol{\theta};datos)
+=
+\prod_{i=1}^{n}
+\left[
+f(t_i;\boldsymbol{\theta})
+\right]^{\delta_i}
+\left[
+1-F(t_i;\boldsymbol{\theta})
+\right]^{1-\delta_i}.
+$$
+
+Esta expresión permite incorporar correctamente la información proporcionada por cada componente. Si $\delta_i=1$, la observación aporta su tiempo exacto de falla mediante la densidad $f(t_i;\boldsymbol{\theta})$; si $\delta_i=0$, únicamente aporta la información de que el componente sobrevivió hasta $t_i$, mediante $S(t_i;\boldsymbol{\theta})$.
+
 
 
 # Ejemplo 
@@ -24,24 +106,25 @@ La prueba se realizó bajo condiciones controladas. Sin embargo, por cuestiones 
 ### Actividad
 
 1. **Exploración de los datos.**
-  Construye un histograma de los tiempos de falla y analiza su distribución. ¿Observas algún comportamiento particular o algún valor que pueda resultar sospechoso? Explica qué podría estar ocurriendo con las observaciones que se concentran en un mismo valor.
+  Construye un histograma de los tiempos de falla y analiza su distribución. ¿Observas algún comportamiento particular o algún valor que pueda resultar sospechoso? Explica qué podría estar ocurriendo con las observaciones que se concentran en un mismo valor. (Valor: 2 puntos).
 
 2. **Ignorando las observaciones censuradas.**
-Supón que decides ignorar las observaciones censuradas y trabajar únicamente con los tiempos de falla completamente observados. Bajo el supuesto de que los tiempos de falla siguen una distribución exponencial, estima el parámetro de tasa $\lambda$ mediante el método de máxima verosimilitud.
+Supón que decides ignorar las observaciones censuradas y trabajar únicamente con los tiempos de falla completamente observados. Bajo el supuesto de que los tiempos de falla siguen una distribución exponencial, estima el parámetro de tasa $\lambda$ mediante el método de máxima verosimilitud. (Valor: 2 puntos).
 
 3. **Tratando las observaciones censuradas como fallas.**
-Ahora utiliza todos los tiempos registrados, incluyendo las observaciones cuyo valor es 7, pero suponiendo que estos valores representan tiempos de falla observados. Estima nuevamente el parámetro $\lambda$ mediante máxima verosimilitud.
+Ahora utiliza todos los tiempos registrados, incluyendo las observaciones cuyo valor es 7, pero suponiendo que estos valores representan tiempos de falla observados. Estima nuevamente el parámetro $\lambda$ mediante máxima verosimilitud. (Valor: 2 puntos).
 
 4. **Considerando la censura por la derecha.**
-Finalmente, considera correctamente la información contenida en las observaciones censuradas por la derecha. Construye la función de verosimilitud correspondiente y estima el parámetro $\lambda$ mediante máxima verosimilitud.
+Finalmente, considera correctamente la información contenida en las observaciones censuradas por la derecha. Construye la función de verosimilitud correspondiente y estima el parámetro $\lambda$ mediante máxima verosimilitud. (Valor: 2 puntos).
 
 5. **Comparación de los estimadores.**
-Se sabe que los datos fueron generados a partir de una distribución exponencial con parámetro de tasa $\lambda=0.2$. Compara las tres estimaciones obtenidas en los ejercicios anteriores. ¿Cuál de ellas se encuentra más cercana al valor verdadero? Explica por qué los diferentes tratamientos de las observaciones censuradas producen estimaciones diferentes.
+Se sabe que los datos fueron generados a partir de una distribución exponencial con parámetro de tasa $\lambda=0.2$. Compara las tres estimaciones obtenidas en los ejercicios anteriores. ¿Cuál de ellas se encuentra más cercana al valor verdadero? Explica por qué los diferentes tratamientos de las observaciones censuradas producen estimaciones diferentes. (Valor: 2 puntos).
 
 6. **Determinación del periodo de garantía.**
-La empresa desea establecer un periodo de garantía de manera que, de acuerdo con el modelo estimado, **al menos el 90% de los componentes continúen funcionando durante todo el periodo de garantía**. Determina el periodo de garantía correspondiente utilizando el estimador de $\lambda$  obtenido mediante el procedimiento de máxima verosimilitud que considera correctamente la censura por la derecha. Interpreta el resultado en el contexto del problema.
+La empresa desea establecer un periodo de garantía de manera que, de acuerdo con el modelo estimado, **al menos el 90% de los componentes continúen funcionando durante todo el periodo de garantía**. Determina el periodo de garantía correspondiente utilizando el estimador de $\lambda$  obtenido mediante el procedimiento de máxima verosimilitud que considera correctamente la censura por la derecha. Interpreta el resultado en el contexto del problema. (Valor: 2 puntos).
 
 
+7. Comenta los retos, dificultades y aprendizajes que te dejo esta práctica. (Valor: 3 puntos).
 
 
 
