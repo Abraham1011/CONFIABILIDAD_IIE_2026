@@ -1,0 +1,196 @@
+---
+title: "Estimación por máxima verosimilitud con datos censurados"
+author: "M. en C. Abraham Montoya"
+format:
+    pdf: default
+    html: 
+      self-contained: true
+      grid: 
+        margin-width: 350px
+execute: 
+  echo: fenced
+reference-location: margin
+citation-location: margin
+---
+
+# Introducción
+
+En el parcial anterior estudiamos los diferentes tipos de censura y la
+información que puede observarse sobre el tiempo de falla $T$.
+
+En este parcial nos enfocaremos en utilizar esa información para realizar
+**inferencia estadística**. En particular, construiremos la función de
+verosimilitud y obtendremos estimadores mediante el método de **máxima
+verosimilitud**.
+
+La idea fundamental es que cada observación aporta a la verosimilitud de
+acuerdo con la información disponible sobre su tiempo de falla.
+
+
+
+
+| Tipo de censura | Aporte a la verosimilitud |
+|---|---|
+| Sin censura | $f(t)$ |
+| Censura por la izquierda | $F(t)$ |
+| Censura por intervalo | $F(t_{i})-F(t_{i-1})$ |
+| Censura por la derecha | $S(t)=1-F(t)$ |
+
+
+Por lo tanto, la verosimilitud completa se obtiene multiplicando las
+contribuciones correspondientes a cada observación según su tipo de
+censura.
+
+
+Sea $T$ el tiempo de falla de un componente, con función de densidad
+$f(t)$, función de distribución $F(t)$ y función de supervivencia
+
+$$
+S(t)=1-F(t).
+$$
+
+Si tenemos $n$ observaciones independientes, la función de verosimilitud
+puede escribirse como, si denotamos por $\mathcal{U}$ el conjunto de observaciones
+sin censura, $\mathcal{L}$ las censuradas por la izquierda,
+$\mathcal{I}$ las censuradas por intervalo y $\mathcal{R}$ las censuradas
+por la derecha, entonces
+
+$$
+L(\boldsymbol{\theta})
+=
+\prod_{i\in\mathcal{U}} f(t_i;\boldsymbol{\theta})
+\prod_{i\in\mathcal{L}} F(t_i;\boldsymbol{\theta})
+\prod_{i\in\mathcal{I}}
+\left[
+F(t_i;\boldsymbol{\theta})
+-
+F(t_{i-1};\boldsymbol{\theta})
+\right]
+\prod_{i\in\mathcal{R}}
+S(t_i;\boldsymbol{\theta}).
+$$
+
+
+# Ejemplo: Fallas en una línea de producción
+
+Una empresa desea estudiar el tiempo hasta la falla de un componente
+electrónico utilizado en una línea de producción.
+
+Para ello, se seleccionaron **100 componentes** y se realizaron
+inspecciones periódicas para determinar su estado. Debido a que las
+inspecciones no fueron continuas, en algunos casos no se conoce el
+instante exacto en que ocurrió la falla, sino únicamente el intervalo
+de tiempo en el que ocurrió.
+
+Los resultados se resumen en la siguiente tabla:
+
+| Intervalo de tiempo | Frecuencia | Tipo de censura |
+|---|---:|---|
+| $0 < T \leq 10$ | 20 | |
+| $10 < T \leq 20$ | 30 | |
+| $20 < T \leq 30$ | 35 | |
+| $30 < T$ | 15 | |
+
+
+
+
+1. **Complete la columna "Tipo de censura"** para cada intervalo. (Valor: 1 punto).
+
+
+2. **Interprete qué significa la frecuencia de cada fila** en términos del
+   tiempo de falla de los componentes. (Valor: 1 punto).
+   
+
+3. Suponga que $F(t)$ es la función de distribución del tiempo de falla.
+   Escriba la **función de verosimilitud** correspondiente a los datos
+   observados, utilizando únicamente $F(t)$ y sin asumir todavía una
+   distribución de probabilidad particular. (Valor: 1 punto).
+   
+   
+
+4. Obtenga la **log-verosimilitud** correspondiente. (Valor: 1 punto).
+
+
+
+
+
+# Ejemplo: Definición de una garantía para componentes electrónicos
+
+
+Una empresa fabricante de componentes electrónicos desea establecer el
+periodo de **garantía** que ofrecerá a sus clientes. Para ello, se realizó
+un estudio de vida con **100 componentes**, cuyo tiempo de falla se
+registró mediante inspecciones realizadas cada **2000 horas de
+operación**.
+
+El estudio tuvo una duración máxima de **8000 horas**. Por lo tanto, para
+los componentes que continuaban funcionando al finalizar el estudio, solo
+se sabe que su tiempo de vida es superior a 8000 horas.
+
+Los resultados del estudio fueron:
+
+| Intervalo de tiempo (miles de horas) | Frecuencia | Tipo de censura |
+|---|---:|---|
+| $0 < T \leq 2$ | 30 | |
+| $2 < T \leq 4$ | 26 | |
+| $4 < T \leq 6$ | 16 | |
+| $6 < T \leq 8$ | 6 | |
+| $8 < T$ | 22 | |
+
+```{r, echo=FALSE}
+library(ggplot2)
+
+datos <- data.frame(
+  inicio = c(0, 2, 4, 6, 8),
+  fin = c(2, 4, 6, 8, 10),
+  frecuencia = c(30, 26, 16, 6, 22)
+)
+
+ggplot(datos) +
+  geom_rect(
+    aes(
+      xmin = inicio,
+      xmax = fin,
+      ymin = 0,
+      ymax = frecuencia
+    ),
+    fill = "gray70",
+    color = "black"
+  ) +
+  scale_x_continuous(
+    breaks = c(0, 2, 4, 6, 8),
+    labels = c("0", "2", "4", "6", "8+")
+  ) +
+  labs(
+    x = "Tiempo de vida (miles de horas)",
+    y = "Frecuencia"
+  ) +
+  theme_minimal()
+```
+
+
+
+1. Complete la columna **Tipo de censura**. (Valor: 2 puntos).
+
+
+
+2. Interprete qué representa la frecuencia de cada fila en términos del
+   tiempo de vida de los componentes. (Valor: 2 puntos).
+
+
+
+3. Suponga que el tiempo de vida de los componentes sigue una distribución
+   exponencial con parámetro $\lambda$ y obtenga el **estimador de máxima verosimilitud** de $\lambda$. (Valor: 2 puntos).
+
+
+
+4. Utilice el estimador obtenido para determinar una recomendación sobre
+   el periodo de garantía que podría ofrecer la empresa. (Valor: 2 puntos).
+
+
+
+5. Comenta los retos, dificultades y aprendizajes que te dejo esta práctica. (Valor: 3 puntos).
+
+
+
+
