@@ -1,0 +1,47 @@
+---
+title: "Practica 3 Unidad 2"
+author: "M. en C. Abraham Montoya"
+format:
+    pdf: default
+    html: 
+      self-contained: true
+      grid: 
+        margin-width: 350px
+execute: 
+  echo: fenced
+reference-location: margin
+citation-location: margin
+---
+
+
+Una empresa dedicada a la fabricación de componentes electrónicos para equipos industriales desea establecer un periodo de garantía para uno de sus productos. Antes de definirlo, realizó una prueba de vida con $n = 200$ componentes, registrando el tiempo transcurrido hasta que cada componente presentó una falla.
+
+La prueba se realizó bajo condiciones controladas. Sin embargo, por cuestiones de **tiempo y costo**, el experimento se **dio por terminado cuando transcurrieron 18 mil horas**. Los componentes que presentaron una falla antes de ese momento tienen registrado su tiempo de falla. Para los componentes que continuaban funcionando al finalizar la prueba, únicamente se sabe que su tiempo de falla es posterior al momento en que terminó el experimento.
+
+
+### Ejercicios
+
+1. **Exploración de los datos.**
+  Construye un histograma de los tiempos de falla y analiza su distribución. ¿Observas algún comportamiento particular o algún valor que pueda resultar sospechoso? Explica qué podría estar ocurriendo con las observaciones que se concentran en un mismo valor. **(Valor: 2 puntos)**
+
+2. **Determina la proporción de observaciones censuradas.** **(2 puntos)**
+
+3. **Ajusta por máxima verosimilitud una distribución Gamma.** **(2 puntos)**
+
+4. **Ajusta por máxima verosimilitud una distribución Weibull.** **(2 puntos)**
+
+5. **Ajusta por máxima verosimilitud una distribución Lognormal.** **(2 puntos)**
+
+6. **Calcula el AIC y el BIC** para los tres modelos ajustados. Con base en estos criterios, compara los modelos y selecciona el que consideres más adecuado, justificando tu elección. **(2 puntos)**
+
+7. **Establece un tiempo de garantía razonable** a partir del modelo seleccionado y justifica el criterio utilizado para determinarlo. **(2 puntos)**
+
+8. Comenta los retos, dificultades y aprendizajes que te dejo esta práctica. **(Valor: 3 puntos)**
+
+
+
+
+
+
+
+
