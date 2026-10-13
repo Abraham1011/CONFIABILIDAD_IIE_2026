@@ -24,7 +24,7 @@ Finalmente, el experimento se dio por terminado al transcurrir **10 mil horas**.
 
 | Intervalo de tiempo (miles de horas) | Número de componentes | Tipo de censura |
 |:------------------------------------:|----------------------:|:----------------|
-| $(0,2]$                              | 12                    | Por intervalo   |
+| $(0,2]$                              | 12                    | Izquierda   |
 | $(2,4]$                              | 39                    | Por intervalo   |
 | $(4,6]$                              | 48                    | Por intervalo   |
 | $(6,8]$                              | 42                    | Por intervalo   |
