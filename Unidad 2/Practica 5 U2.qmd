@@ -49,7 +49,7 @@ Los resultados obtenidos se presentan en la siguiente tabla:
 1. **Ajusta por máxima verosimilitud 2 modelos.** **(6 puntos)**
 
 
-2. **Determina cuál de los tres modelos es mejor.** Justifica tu respuesta. **(2 puntos)**
+2. **Determina cuál de los dos modelos es mejor.** Justifica tu respuesta. **(2 puntos)**
 
 3. **Establece un tiempo de garantía razonable** a partir del modelo seleccionado y justifica el criterio utilizado para determinarlo. **(2 puntos)**
 
