@@ -51,7 +51,9 @@ Los resultados obtenidos se presentan en la siguiente tabla:
 
 2. **Determina cuál de los dos modelos es mejor.** Justifica tu respuesta. **(2 puntos)**
 
+
 3. **Establece un tiempo de garantía razonable** a partir del modelo seleccionado y justifica el criterio utilizado para determinarlo. **(2 puntos)**
+
 
 4. Comenta los retos, dificultades y aprendizajes que te dejo esta práctica. **(Valor: 3 puntos)**
 
