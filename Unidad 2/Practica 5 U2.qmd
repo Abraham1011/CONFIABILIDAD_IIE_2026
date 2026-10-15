@@ -1,0 +1,59 @@
+---
+title: "Practica 5 Unidad 2"
+author: "M. en C. Abraham Montoya"
+format:
+    pdf: default
+    html: 
+      self-contained: true
+      grid: 
+        margin-width: 350px
+execute: 
+  echo: fenced
+reference-location: margin
+citation-location: margin
+---
+
+
+
+Una empresa dedicada a la fabricación de componentes electrónicos para equipos industriales desea establecer un periodo de garantía para uno de sus productos. Antes de definirlo, realizó una prueba de vida con $n=200$ componentes, con el propósito de estudiar su comportamiento ante las fallas.
+
+La prueba se realizó bajo condiciones controladas. Debido a cuestiones de **tiempo y costo**, no fue posible monitorear continuamente los componentes. En su lugar, se estableció un programa de **inspecciones periódicas cada mil horas**, en las cuales se registraba cuántos componentes habían fallado desde la inspección anterior.
+
+Por lo tanto, **no se conoce el tiempo exacto de falla de los componentes**, sino únicamente el intervalo de tiempo en el que ocurrió cada falla.
+
+Finalmente, el experimento se dio por terminado al transcurrir **10 mil horas**. Para los componentes que continuaban funcionando en ese momento, únicamente se sabe que su tiempo de falla es superior a las 10 mil horas.
+
+Los resultados obtenidos se presentan en la siguiente tabla:
+
+| Tiempo de falla (miles de horas) | Frecuencia | Tipo de observación |
+|:--------------------------------:|:----------:|:--------------------|
+| $(0,1]$   | 9  | Censura por la izquierda |
+| $(1,2]$   | 20 | Censura por intervalo |
+| $(2,3]$   | 34 | Censura por intervalo |
+| $(3,4]$   | 25 | Censura por intervalo |
+| $(4,5]$   | 21 | Censura por intervalo |
+| $(5,6]$   | 12 | Censura por intervalo |
+| $(6,7]$   | 7  | Censura por intervalo |
+| $(7,8]$   | 16 | Censura por intervalo |
+| $(8,9]$   | 27 | Censura por intervalo |
+| $(9,10]$  | 15 | Censura por intervalo |
+| $(10,\infty)$ | 14 | Censura por la derecha |
+| **Total** | **200** | |
+
+
+
+
+# Ejercicios
+
+
+1. **Ajusta por máxima verosimilitud 2 modelos.** **(6 puntos)**
+
+
+2. **Determina cuál de los tres modelos es mejor.** Justifica tu respuesta. **(2 puntos)**
+
+3. **Establece un tiempo de garantía razonable** a partir del modelo seleccionado y justifica el criterio utilizado para determinarlo. **(2 puntos)**
+
+4. Comenta los retos, dificultades y aprendizajes que te dejo esta práctica. **(Valor: 3 puntos)**
+
+
+
