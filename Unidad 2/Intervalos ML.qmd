@@ -1,0 +1,271 @@
+---
+title: "Intervalos de confianza para los estimadores de máxima verosimilitud"
+author: "M. en C. Abraham Montoya"
+format:
+    pdf: default
+    html: 
+      self-contained: true
+      grid: 
+        margin-width: 350px
+execute: 
+  echo: fenced
+reference-location: margin
+citation-location: margin
+---
+
+
+
+
+# Intervalos de confianza para estimadores de máxima verosimilitud
+
+Cuando estimamos los parámetros de una distribución mediante el método de **máxima verosimilitud**, obtenemos estimaciones puntuales. Sin embargo, estas estimaciones están sujetas a incertidumbre, ya que dependen de los datos observados.
+
+Para cuantificar esta incertidumbre podemos construir **intervalos de confianza** mediante aproximaciones basadas en la distribución normal.
+
+Supongamos que una distribución tiene $p$ parámetros desconocidos:
+
+$$
+\boldsymbol{\theta}=(\theta_1,\theta_2,\ldots,\theta_p).
+$$
+
+Después de maximizar la función de log-verosimilitud obtenemos sus estimadores:
+
+$$
+\hat{\boldsymbol{\theta}}=
+(\hat{\theta}_1,\hat{\theta}_2,\ldots,\hat{\theta}_p).
+$$
+
+A continuación, construiremos un intervalo de confianza para cada uno de estos parámetros.
+
+### 1. Aproximación normal
+
+Bajo ciertas condiciones y cuando el tamaño de muestra es suficientemente grande, los estimadores de máxima verosimilitud tienen una distribución aproximadamente normal.
+
+Por lo tanto, un intervalo de confianza del $(1-\alpha)100\%$ para el parámetro $\theta_j$ se calcula mediante:
+
+$$
+\boxed{
+IC(\theta_j)=
+\hat{\theta}_j \pm
+z_{1-\alpha/2}SE(\hat{\theta}_j)
+}
+$$
+
+donde:
+
+- $\hat{\theta}_j$ es el estimador de máxima verosimilitud del parámetro.
+- $SE(\hat{\theta}_j)$ es el error estándar estimado.
+- $z_{1-\alpha/2}$ es el cuantil correspondiente de la distribución normal estándar.
+- $\alpha$ es el nivel de significancia.
+
+Para un nivel de confianza del 95%, utilizamos $z_{0.975}\approx 1.96$.
+
+### 2. Cálculo de los errores estándar
+
+Para construir los intervalos anteriores necesitamos estimar los errores estándar de los estimadores.
+
+En máxima verosimilitud, estos pueden aproximarse utilizando la **matriz Hessiana**, que contiene las segundas derivadas de la función de log-verosimilitud respecto a los parámetros.
+
+Sea $\ell(\boldsymbol{\theta})$ la función de log-verosimilitud. La matriz Hessiana se representa mediante:
+
+$$
+H(\boldsymbol{\theta})=
+\begin{pmatrix}
+\frac{\partial^2\ell}{\partial\theta_1^2}
+& \cdots &
+\frac{\partial^2\ell}{\partial\theta_1\partial\theta_p}\\
+\vdots & \ddots & \vdots\\
+\frac{\partial^2\ell}{\partial\theta_p\partial\theta_1}
+& \cdots &
+\frac{\partial^2\ell}{\partial\theta_p^2}
+\end{pmatrix}.
+$$
+
+La matriz de varianzas y covarianzas de los estimadores se aproxima mediante:
+
+$$
+\boxed{
+\widehat{\Sigma}
+=
+[-H(\hat{\boldsymbol{\theta}})]^{-1}
+}
+$$
+
+Es decir, calculamos la Hessiana en los valores estimados, cambiamos su signo y obtenemos su inversa.
+
+La diagonal de esta matriz contiene las varianzas estimadas:
+
+$$
+\widehat{\Sigma}=
+\begin{pmatrix}
+\widehat{\operatorname{Var}}(\hat{\theta}_1) & \cdots\\
+\vdots & \ddots
+\end{pmatrix}.
+$$
+
+Por lo tanto, el error estándar de cada estimador se calcula como:
+
+$$
+\boxed{
+SE(\hat{\theta}_j)=
+\sqrt{\widehat{\Sigma}_{jj}}
+}
+$$
+
+**Importante:** no es necesario calcular manualmente las segundas derivadas. En R podemos aproximar numéricamente la matriz Hessiana utilizando funciones como `hessian()` del paquete `numDeriv`, o solicitarla directamente a `optim()`.
+
+### 3. Aproximación lognormal
+
+La aproximación normal tiene una limitación: puede producir límites inferiores negativos.
+
+Esto representa un problema cuando estimamos parámetros que necesariamente deben ser positivos, como los parámetros de forma y escala de una distribución Weibull.
+
+En estos casos podemos construir intervalos de confianza utilizando una **aproximación lognormal**, que consiste en trabajar con el logaritmo de los estimadores.
+
+Para un parámetro $\theta_j>0$, el intervalo de confianza del $(1-\alpha)100\%$ se calcula mediante:
+
+$$
+\boxed{
+IC(\theta_j)=
+\left[
+\hat{\theta}_j
+\exp\left(
+-z_{1-\alpha/2}
+\frac{SE(\hat{\theta}_j)}{\hat{\theta}_j}
+\right),
+\quad
+\hat{\theta}_j
+\exp\left(
+z_{1-\alpha/2}
+\frac{SE(\hat{\theta}_j)}{\hat{\theta}_j}
+\right)
+\right]
+}
+$$
+
+El error estándar se obtiene de la misma matriz de varianzas y covarianzas utilizada en la aproximación normal.
+
+La principal ventaja de este intervalo es que **sus límites siempre son positivos**, además de que no necesariamente es simétrico respecto al estimador.
+
+# Ejemplo
+
+Una empresa dedicada a la fabricación de componentes electrónicos para equipos industriales desea establecer un periodo de garantía para uno de sus productos. Antes de definirlo, realizó una prueba de vida con $n=200$ componentes, con el propósito de estudiar su comportamiento ante las fallas.
+
+La prueba se realizó bajo condiciones controladas. Debido a cuestiones de **tiempo y costo**, no fue posible monitorear continuamente los componentes. En su lugar, se estableció un programa de **inspecciones periódicas cada 2 mil horas**, en las cuales se registraba cuántos componentes habían fallado desde la inspección anterior.
+
+Por lo tanto, **no se conoce el tiempo exacto de falla de los componentes**, sino únicamente el intervalo de tiempo en el que ocurrió cada falla.
+
+Finalmente, el experimento se dio por terminado al transcurrir **10 mil horas**. Para los componentes que continuaban funcionando en ese momento, únicamente se sabe que su tiempo de falla es superior a las 10 mil horas.
+
+
+
+| Intervalo de tiempo (miles de horas) | Número de componentes | Tipo de censura |
+|:------------------------------------:|----------------------:|:----------------|
+| $(0,2]$                              | 12                    | Izquierda   |
+| $(2,4]$                              | 39                    | Por intervalo   |
+| $(4,6]$                              | 48                    | Por intervalo   |
+| $(6,8]$                              | 42                    | Por intervalo   |
+| $(8,10]$                             | 26                    | Por intervalo   |
+| $(10,\infty)$                        | 33                    | Por la derecha  |
+
+
+Estimar los parámetros de una distribución Weibull mediante el método de máxima verosimilitud, obteniendo tanto las estimaciones puntuales como sus respectivos intervalos de confianza al 95%, utilizando la aproximación lognormal.
+
+## Solución
+
+Primero obtenemos la estimación puntual de los parámetros, como lo hemos hecho hasta ahora.  
+
+```{r, warning=FALSE, message=FALSE}
+ll.weibull <- function(par){
+  ll.izq <- 12*log(pweibull(2,shape=par[1],scale=par[2]))
+  ll.int1 <- 39*log(pweibull(4,shape=par[1],scale=par[2])-pweibull(2,shape=par[1],scale=par[2]))
+  ll.int2 <- 48*log(pweibull(6,shape=par[1],scale=par[2])-pweibull(4,shape=par[1],scale=par[2]))
+  ll.int3 <- 42*log(pweibull(8,shape=par[1],scale=par[2])-pweibull(6,shape=par[1],scale=par[2]))
+  ll.int4 <- 26*log(pweibull(10,shape=par[1],scale=par[2])-pweibull(8,shape=par[1],scale=par[2]))
+  ll.d <- 33*log(1-pweibull(10,shape=par[1],scale=par[2]))
+  value <- ll.izq + ll.int1 + ll.int2 + ll.int3 + ll.int4 + ll.d
+  return(value)
+}
+
+
+opt <- optim(par = c(1,1), fn = ll.weibull, hessian = TRUE,
+             control = list(fnscale = -1))
+theta <- opt$par
+theta
+```
+
+Posteriormente, calculamos la matriz Hessiana de la función de log-verosimilitud, evaluada en los parámetros estimados. Multiplicamos esta matriz por $-1$ y calculamos su inversa. La matriz resultante constituye una aproximación de la matriz de varianzas y covarianzas de los estimadores de máxima verosimilitud.
+
+```{r}
+library(numDeriv)
+H <- -1*hessian(ll.weibull, theta)
+Sigma.hat <- solve(H)
+Sigma.hat
+```
+
+Los elementos de la diagonal principal de esta matriz corresponden a las **varianzas estimadas de los estimadores de máxima verosimilitud**. Al calcular la raíz cuadrada de cada una de estas varianzas, obtenemos los respectivos errores estándar, que utilizaremos para construir los intervalos de confianza mediante la aproximación lognormal.
+
+```{r}
+Var.hat <- diag(Sigma.hat)
+Var.hat
+```
+
+```{r}
+z <- qnorm(0.05/2)
+Li <- theta*exp(z*sqrt(Var.hat)/theta)
+Ls <- theta*exp(-z*sqrt(Var.hat)/theta)
+```
+
+```{r}
+Li
+```
+
+
+```{r}
+Ls
+```
+
+Con un nivel de confianza del 95%, estimamos que el parámetro de forma de la distribución Weibull se encuentra entre 1.7597 y 2.3071.
+
+Con un nivel de confianza del 95%, estimamos que el parámetro de escala se encuentra entre 6.8240 y 7.9502 miles de horas.
+
+
+# Ejercicio
+
+
+Una empresa dedicada a la fabricación de componentes electrónicos para equipos industriales desea establecer un periodo de garantía para uno de sus productos. Antes de definirlo, realizó una prueba de vida con $n=200$ componentes, con el propósito de estudiar su comportamiento ante las fallas.
+
+La prueba se realizó bajo condiciones controladas. Debido a cuestiones de **tiempo y costo**, no fue posible monitorear continuamente los componentes. En su lugar, se estableció un programa de **inspecciones periódicas cada mil horas**, en las cuales se registraba cuántos componentes habían fallado desde la inspección anterior.
+
+Por lo tanto, **no se conoce el tiempo exacto de falla de los componentes**, sino únicamente el intervalo de tiempo en el que ocurrió cada falla.
+
+Finalmente, el experimento se dio por terminado al transcurrir **10 mil horas**. Para los componentes que continuaban funcionando en ese momento, únicamente se sabe que su tiempo de falla es superior a las 10 mil horas.
+
+Los resultados obtenidos se presentan en la siguiente tabla:
+
+| Tiempo de falla (miles de horas) | Frecuencia | Tipo de observación |
+|:--------------------------------:|:----------:|:--------------------|
+| $(0,1]$   | 9  | Censura por la izquierda |
+| $(1,2]$   | 20 | Censura por intervalo |
+| $(2,3]$   | 34 | Censura por intervalo |
+| $(3,4]$   | 25 | Censura por intervalo |
+| $(4,5]$   | 21 | Censura por intervalo |
+| $(5,6]$   | 12 | Censura por intervalo |
+| $(6,7]$   | 7  | Censura por intervalo |
+| $(7,8]$   | 16 | Censura por intervalo |
+| $(8,9]$   | 27 | Censura por intervalo |
+| $(9,10]$  | 15 | Censura por intervalo |
+| $(10,\infty)$ | 14 | Censura por la derecha |
+| **Total** | **200** | |
+
+
+1. Estimar los parámetros de un modelo mediante el método de máxima verosimilitud, obteniendo tanto las estimaciones puntuales como sus respectivos intervalos de confianza al 95%, utilizando la aproximación lognormal. **(Valor: 2 puntos)**
+
+
+2. Interpreta los intervalos de confianza. **(Valor: 2 puntos)**
+
+
+3. Comenta los retos, dificultades y aprendizajes que te dejo esta práctica. **(Valor: 3 puntos)**
+
+
+
