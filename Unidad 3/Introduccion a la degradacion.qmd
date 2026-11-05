@@ -186,3 +186,53 @@ model$sigma
 ```
 
 
+
+
+
+# Ejercicio 
+
+1. **[Valor: 2 puntos]**. Simular $K=50$ unidades del siguiente modelo de regresión:
+
+$$
+Y_{kt_i} = \beta_{0k}+\sqrt{\beta_{1k}t_i}+\varepsilon_{ki},
+\qquad
+k=1,2,\ldots,K,\quad i=1,2,\ldots,n_k.
+$$
+
+Los coeficientes aleatorios de cada unidad siguen una distribución normal bivariada:
+
+$$
+\boldsymbol{\beta}_k =
+\begin{pmatrix}
+\beta_{0k}\\
+\beta_{1k}
+\end{pmatrix}
+\overset{iid}{\sim}
+N_2\left(
+\begin{pmatrix}
+5\\
+10
+\end{pmatrix},
+\begin{pmatrix}
+1.5 & 1.3\\
+1.3 & 2
+\end{pmatrix}
+\right).
+$$
+
+
+ los errores aleatorios se distribuyen como:
+
+$$
+\varepsilon_{ki}\overset{iid}{\sim}N(0,4),
+$$
+
+
+2. **[Valor: 2 puntos]**. Crea un gráfico de dispersión e interprétalo, ¿la degradación presenta una tendencia lineal?
+
+
+3. **[Valor: 2 puntos]**. Estima los parámetros del modelo con la librería `nlme`.
+
+
+4. **[Valor: 2 puntos]**. Comenta los retos, dificultades y aprendizajes que te dejo esta práctica.
+
