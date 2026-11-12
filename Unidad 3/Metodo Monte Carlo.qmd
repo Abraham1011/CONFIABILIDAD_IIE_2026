@@ -1,0 +1,69 @@
+---
+title: "Método Monte Carlo para aproximar la distribución del tiempo de vida"
+author: "M. en C. Abraham Montoya"
+format:
+    pdf: default
+    html: 
+      self-contained: true
+      grid: 
+        margin-width: 350px
+execute: 
+  echo: fenced
+reference-location: margin
+citation-location: margin
+---
+
+# Método Monte Carlo para aproximar la distribución del tiempo de vida
+
+Una vez estimados los parámetros del modelo de degradación, como lo vimos la clase pasada, el siguiente paso consiste en obtener la distribución del tiempo de vida de las unidades. Para ello, se utilizará el **método Monte Carlo**, mediante el cual se simularán múltiples trayectorias de degradación hasta alcanzar el umbral de falla, permitiendo aproximar la distribución de los tiempos de vida.
+
+
+## Algoritmo: Simulación Monte Carlo del tiempo de falla
+
+1. Generar $N$ realizaciones simuladas $\tilde{\boldsymbol{\beta}}_1,\ldots,\tilde{\boldsymbol{\beta}}_N$ a partir de una distribución normal multivariada con vector de medias $\hat{\boldsymbol{\theta}}_{\beta}$ y matriz de varianzas-covarianzas $\hat{\boldsymbol{\Sigma}}_{\beta}$, donde $N$ es un número suficientemente grande (por ejemplo, $N=10000$).
+
+2. Para cada realización $\tilde{\boldsymbol{\beta}}_i$, utilizar los parámetros estimados del modelo de degradación para simular la trayectoria correspondiente hasta alcanzar el umbral de falla $D$. Registrar el tiempo de falla $T_i$ de cada trayectoria simulada.
+
+3. Los $N$ tiempos de falla obtenidos, $T_1,\ldots,T_N$, constituyen una muestra Monte Carlo que permite aproximar la distribución del tiempo de vida de las unidades.
+
+
+
+## Caso de estudio: Determinación de la garantía de componentes industriales
+
+Una empresa fabricante de motores eléctricos desea establecer un periodo de garantía para uno de sus productos. Uno de los principales mecanismos de deterioro de estos motores es el desgaste de sus rodamientos, el cual provoca un incremento progresivo en los niveles de vibración durante su funcionamiento.
+
+De acuerdo con las especificaciones técnicas del fabricante, **se considera que un motor falla cuando la amplitud de vibración alcanza las 200 unidades de medición**.
+
+Para evaluar la durabilidad del producto, la empresa seleccionó aleatoriamente **$n=100$ motores** de un mismo lote de producción y los sometió a pruebas de funcionamiento bajo condiciones controladas.
+
+Durante el experimento se registró la amplitud de vibración de cada motor al inicio de la prueba y posteriormente cada 1000 horas de funcionamiento.
+
+Aunque originalmente se pretendía continuar las pruebas hasta observar las fallas, debido a los elevados costos de operación y las restricciones de tiempo, **el experimento finalizó después de 5000 horas**.
+
+Los resultados se encuentran en la base de datos `Datos_motores_U3`, que contiene las siguientes variables:
+
+- `unit`: identificador del motor evaluado.
+- `t`: tiempo de funcionamiento, expresado en miles de horas.
+- `Degradacion`: amplitud de vibración registrada en cada medición.
+
+### Objetivo del estudio
+
+A partir de las mediciones obtenidas, la empresa desea estudiar el comportamiento del desgaste de los motores y estimar su tiempo de vida útil.
+
+En particular, busca establecer un periodo de garantía durante el cual **al menos el 95% de los motores no haya alcanzado el nivel crítico de vibración**.
+
+
+## Ejercicios
+
+
+1. **Visualización de las trayectorias de degradación.** Construya un gráfico que muestre la evolución de la amplitud de vibración de los 100 motores a lo largo del tiempo. Incluya una línea horizontal que represente el nivel crítico de falla.
+
+2. **Ajuste del modelo de regresión.** Ajuste un modelo de regresión con efectos mixtos que permita describir el comportamiento de la amplitud de vibración en función del tiempo, considerando la variabilidad entre motores. Presente e interprete los parámetros estimados. **(Valor: 1 punto)**
+
+3. **Simulación mediante el método Monte Carlo.** Utilice el modelo ajustado para simular trayectorias de degradación y obtener una muestra de tiempos de falla. **(Valor: 1 punto)**
+
+
+4. **Estimación del tiempo de garantía.** A partir de los tiempos de falla simulados, estime puntualmente y por intervalo el periodo de garantía que permita asegurar que al menos el 95% de los motores no alcance el nivel crítico de falla. **(Valor: 1 punto)**
+
+5. Comenta los retos, dificultades y aprendizajes que te dejo esta práctica. **(Valor: 2 puntos)**
+
