@@ -38,10 +38,10 @@ Los datos estan disponibles en el archivo `datos_P1_U3.csv`
 ### Actividades
 
 
-1. **[Valor: 80%]** Determine el número máximo de ciclos de operación que debe permitirse a un motor antes de su reemplazo preventivo, de manera que se satisfaga el criterio de seguridad establecido por la compañía. 
+1. **[Valor: 90%]** Determine el número máximo de ciclos de operación que debe permitirse a un motor antes de su reemplazo preventivo, de manera que se satisfaga el criterio de seguridad establecido por la compañía. 
 
 
-2. **[Valor: 20%]** Comenta los retos, dificultades y aprendizajes que te dejo esta práctica.
+2. **[Valor: 10%]** Comenta los retos, dificultades y aprendizajes que te dejo esta práctica.
 
 
 
