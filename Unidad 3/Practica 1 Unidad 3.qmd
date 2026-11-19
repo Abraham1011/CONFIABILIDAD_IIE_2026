@@ -1,0 +1,47 @@
+---
+title: "Practica 1 Unidad 3"
+author: "M. en C. Abraham Montoya"
+format:
+    pdf: default
+    html: 
+      self-contained: true
+      grid: 
+        margin-width: 350px
+execute: 
+  echo: fenced
+reference-location: margin
+citation-location: margin
+---
+
+## Caso de estudio: Análisis de confiabilidad de motores de aeronaves
+
+### Contexto del problema
+
+La confiabilidad de los motores de aeronaves es un aspecto fundamental para garantizar la seguridad de las operaciones aéreas. Una falla inesperada durante el vuelo puede tener consecuencias catastróficas, por lo que las compañías aeronáuticas deben implementar políticas rigurosas de mantenimiento y reemplazo preventivo.
+
+Una compañía dedicada al transporte aéreo ha implementado un sistema de monitoreo para evaluar el deterioro de los motores de su flota. Entre las variables registradas se encuentra **T50**, un sensor que mide la temperatura total a la salida de la turbina de baja presión. El comportamiento de esta temperatura proporciona información relevante sobre las condiciones de funcionamiento y el deterioro progresivo del motor.
+
+El departamento de ingeniería ha identificado que el incremento sostenido de la temperatura T50 está relacionado con la degradación de determinados componentes del motor. Asimismo, se ha establecido que **cuando el sensor alcanza un valor de 1500 unidades, el motor debe considerarse en condición crítica y retirarse inmediatamente de operación**.
+
+Para estudiar este fenómeno, la compañía ha recopilado registros de **50 motores**, cada uno monitoreado durante 200 ciclos de operación. Las mediciones permiten observar cómo evoluciona la temperatura T50 a lo largo del tiempo y cómo varía el comportamiento de degradación entre motores, incluso cuando estos pertenecen al mismo modelo y operan bajo condiciones semejantes.
+
+### Problema de ingeniería
+
+Actualmente, la compañía necesita establecer una política de reemplazo preventivo que permita determinar cuántos ciclos puede operar un motor antes de que resulte necesario retirarlo del servicio.
+
+Dada la importancia de la seguridad de los pasajeros y la tripulación, la compañía ha establecido un criterio de confiabilidad particularmente estricto: **el tiempo de reemplazo deberá seleccionarse de manera que la probabilidad de que un motor alcance la condición crítica antes de su retiro sea como máximo del 0.1%.**
+
+El departamento de ingeniería ha solicitado un análisis estadístico que permita estimar la distribución del tiempo de vida de los motores y, a partir de ella, proponer un tiempo máximo de operación que satisfaga el criterio establecido.
+
+Los datos estan disponibles en el archivo `datos_P1_U3.csv`
+
+### Actividades
+
+
+1. **[Valor: 90%]** Determine el número máximo de ciclos de operación que debe permitirse a un motor antes de su reemplazo preventivo, de manera que se satisfaga el criterio de seguridad establecido por la compañía. 
+
+
+2. **[Valor: 10%]** Comenta los retos, dificultades y aprendizajes que te dejo esta práctica.
+
+
+
