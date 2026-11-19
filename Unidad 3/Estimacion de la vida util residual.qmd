@@ -77,7 +77,7 @@ No será necesario implementar desde cero los algoritmos de actualización bayes
 
 ## Caso de estudio: Degradación de filtros industriales
 
-El conjunto de datos de @hagmeyer2021 contiene registros del **proceso de degradación de filtros industriales**, cuyo deterioro ocurre por la acumulación progresiva de partículas sólidas durante la filtración de gases.
+El conjunto de datos contiene registros del **proceso de degradación de filtros industriales**, cuyo deterioro ocurre por la acumulación progresiva de partículas sólidas durante la filtración de gases.
 
 Los datos fueron obtenidos mediante un banco de pruebas que permite monitorear el desgaste de los filtros a lo largo de su funcionamiento.
 
@@ -133,5 +133,8 @@ ggplot(filter_test,
 
 
 
+## Actividad 
+
+Comenta los retos, dificultades y aprendizajes que te dejo esta práctica.
 
 
