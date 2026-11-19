@@ -1,0 +1,137 @@
+---
+title: "Estimación de la vida útil residual"
+author: "M. en C. Abraham Montoya"
+format:
+    pdf: default
+    html: 
+      self-contained: true
+      grid: 
+        margin-width: 350px
+execute: 
+  echo: fenced
+reference-location: margin
+citation-location: margin
+---
+
+
+
+## Estimación de la vida útil remanente (RUL)
+
+Hasta ahora hemos utilizado **modelos de regresión con efectos mixtos** para describir fenómenos de degradación y estimar la distribución del tiempo de vida de una población de unidades.
+
+Sin embargo, consideremos una unidad que **continúa en funcionamiento, pero que ya presenta cierto nivel de desgaste**. En este caso, nuestro interés no es estimar cuánto tiempo puede vivir una unidad nueva, sino **cuánto tiempo le queda antes de alcanzar el umbral de falla**.
+
+A esta cantidad se le conoce como **vida útil remanente** (*Remaining Useful Life*, RUL).
+
+### Tiempo de vida vs. vida útil remanente
+
+- **Tiempo de vida:** tiempo total que transcurre desde que una unidad comienza a funcionar hasta que alcanza el umbral de falla. Su distribución describe la variabilidad en los tiempos de falla de las unidades.
+
+- **Vida útil remanente (RUL):** tiempo que le resta a una unidad específica, que continúa funcionando, antes de alcanzar el umbral de falla. Su distribución considera tanto el tiempo que ya ha funcionado como la degradación que presenta actualmente.
+
+::: {.callout-important}
+La diferencia fundamental es que **la distribución del tiempo de vida describe el comportamiento de las unidades antes de conocer su trayectoria individual**, mientras que **la distribución del RUL incorpora la información observada de una unidad que ya se encuentra en funcionamiento**.
+
+Por lo tanto, dos unidades con la misma edad pueden tener distribuciones de RUL diferentes si sus niveles de degradación son distintos.
+:::
+
+## Procedimiento para estimar el RUL
+
+### Paso 1. Ajustar un modelo de regresión con efectos mixtos
+
+Tal como hemos trabajado anteriormente, utilizamos los datos históricos de degradación de distintas unidades para ajustar un modelo de regresión con efectos mixtos.
+
+Este modelo permite describir:
+
+- El comportamiento general de la degradación en la población.
+- La variabilidad existente entre las unidades.
+- La incertidumbre asociada al proceso de degradación.
+
+A partir del modelo podemos estimar la **distribución del tiempo de vida** de las unidades.
+
+### Paso 2. Actualizar la información de una unidad en funcionamiento
+
+Supongamos que tenemos una unidad que ha estado funcionando durante cierto tiempo y de la cual conocemos sus mediciones de degradación hasta el momento actual.
+
+Aunque ya contamos con un modelo ajustado, **ahora disponemos de información adicional sobre esta unidad específica**.
+
+Mediante una **actualización bayesiana**, utilizamos las mediciones de degradación observadas para actualizar la distribución de sus efectos aleatorios, considerando tanto el comportamiento poblacional como su trayectoria individual.
+
+De esta manera, las predicciones dejan de depender únicamente del comportamiento general de la población y se adaptan a la información disponible de la unidad.
+
+### Paso 3. Estimar la distribución del RUL
+
+Con la información actualizada, estimamos cuánto tiempo podría tardar la unidad en alcanzar el umbral de falla, contando únicamente el tiempo que le resta desde el momento actual.
+
+El resultado no es necesariamente un único valor, sino una **distribución de probabilidad del RUL**, que permite cuantificar la incertidumbre sobre el tiempo de funcionamiento restante.
+
+::: {.callout-note}
+**Herramienta de trabajo**
+
+Para realizar este procedimiento utilizaremos el paquete `degradr` de R.
+
+No será necesario implementar desde cero los algoritmos de actualización bayesiana ni los procedimientos de estimación del RUL. Nos concentraremos en **ajustar correctamente el modelo, incorporar las observaciones de la unidad e interpretar los resultados**.
+:::
+
+
+
+## Caso de estudio: Degradación de filtros industriales
+
+El conjunto de datos de @hagmeyer2021 contiene registros del **proceso de degradación de filtros industriales**, cuyo deterioro ocurre por la acumulación progresiva de partículas sólidas durante la filtración de gases.
+
+Los datos fueron obtenidos mediante un banco de pruebas que permite monitorear el desgaste de los filtros a lo largo de su funcionamiento.
+
+**Criterio de falla:** Se considera que un filtro ha fallado cuando su **presión diferencial alcanza el valor de 600**.
+
+**Objetivo:** Los datos fueron recopilados para desarrollar estrategias de **mantenimiento predictivo**, que permitan estimar la vida útil remanente (RUL) de los filtros y determinar cuándo deben reemplazarse según su estado de degradación, en lugar de hacerlo a intervalos fijos.
+
+**Característica importante:** Debido a que muchos filtros fueron reemplazados antes de alcanzar el umbral de falla, una parte importante de las observaciones presenta **censura por la derecha**, es decir, se desconoce su tiempo de vida total.
+
+```{r,warning=FALSE, message=FALSE}
+library(degradr)
+head(filter_train)
+```
+```{r,echo=FALSE, warning=FALSE, message=FALSE}
+library(ggplot2)
+
+# Gráfico 1: Filtros de entrenamiento (ya reemplazados)
+ggplot(filter_train,
+       aes(x = Time, y = Differential_pressure,
+           group = Data_No, color = factor(Data_No))) +
+  geom_line(linewidth = 0.7, alpha = 0.8) +
+  geom_hline(yintercept = 600, color = "red",
+             linetype = "dashed", linewidth = 1) +
+  labs(
+    title = "Datos de entrenamiento: filtros reemplazados",
+    subtitle = "Trayectorias de degradación registradas antes de su reemplazo",
+    x = "Tiempo",
+    y = "Presión diferencial",
+    color = "Filtro"
+  ) +
+  theme_minimal() +
+  theme(legend.position = "none")
+
+
+# Gráfico 2: Filtros de prueba (aún en funcionamiento)
+ggplot(filter_test,
+       aes(x = Time, y = Differential_pressure,
+           group = Data_No, color = factor(Data_No))) +
+  geom_line(linewidth = 0.7, alpha = 0.8) +
+  geom_hline(yintercept = 600, color = "red",
+             linetype = "dashed", linewidth = 1) +
+  labs(
+    title = "Datos de prueba: filtros aún en funcionamiento",
+    subtitle = "Trayectorias de degradación observadas hasta el momento actual",
+    x = "Tiempo",
+    y = "Presión diferencial",
+    color = "Filtro"
+  ) +
+  theme_minimal() +
+  theme(legend.position = "none")
+```
+
+
+
+
+
+
